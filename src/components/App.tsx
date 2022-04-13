@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { FC } from 'react';
 import {
+  Container,
   GlobalStyles,
   StyledEngineProvider,
   ThemeProvider as MUIThemeProvider,
+  Box,
 } from '@mui/material';
-import { theme } from '../../theme';
+import { theme } from '../theme';
+import { SearchBar } from './SearchBar';
 
 const inputGlobalStyles = () => (
   <GlobalStyles
@@ -21,7 +24,13 @@ const inputGlobalStyles = () => (
   />
 );
 
-const App = () => <div>hello world</div>;
+const App: FC = () => (
+  <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', width: '100%' }}>
+    <Container maxWidth="md" sx={{ py: 1 }}>
+      <SearchBar />
+    </Container>
+  </Box>
+);
 
 const AppWithMui = () => (
   <StyledEngineProvider injectFirst>

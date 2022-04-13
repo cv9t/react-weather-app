@@ -8,6 +8,7 @@
     "sourceMap": true,
     "declaration": true,
     "declarationDir": "types",
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
