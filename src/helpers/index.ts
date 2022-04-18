@@ -1,0 +1,1 @@
+export { convertToCityArray } from './convertToCityArray';

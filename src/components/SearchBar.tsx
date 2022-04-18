@@ -105,7 +105,6 @@ function SearchBar<T>({
   return (
     <Autocomplete
       selectOnFocus
-      autoHighlight
       blurOnSelect
       freeSolo
       open={open}
@@ -127,11 +126,12 @@ function SearchBar<T>({
       )}
       renderOption={(props, option: T) => (
         <Box
+          {...props}
           component="li"
           sx={{
             flexGrow: 1,
           }}
-          {...props}
+          key={getDescriptionLabel(option) + getOptionLabelDependsOnType(option)}
         >
           {typeof option === 'string' ? option : getOptionLabelDependsOnType(option)}
           <Description>{getDescriptionLabel(option)}</Description>

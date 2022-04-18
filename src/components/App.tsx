@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container,
   GlobalStyles,
@@ -7,7 +7,10 @@ import {
   Box,
 } from '@mui/material';
 import { theme } from '../styles/theme';
+import { useFetching } from '../hooks';
+import { CityType } from '../types';
 import { SearchBar } from './SearchBar';
+import { CityService } from '../services';
 
 const inputGlobalStyles = () => (
   <GlobalStyles
@@ -24,38 +27,62 @@ const inputGlobalStyles = () => (
   />
 );
 
-const cities = [
-  { country: 'United States', name: 'Atlanta' },
-  { country: 'Russia', name: 'Irkutsk' },
-  { country: 'Canada', name: 'Toronto' },
-  { country: 'Japan', name: 'Tokyo' },
-  { country: 'China', name: 'KongKok' },
-  { country: 'Germany', name: 'Berlin' },
-  { country: 'Germany', name: 'Aachen' },
-];
+// const cities = [
+//   { country: 'United States', name: 'Atlanta' },
+//   { country: 'Russia', name: 'Irkutsk' },
+//   { country: 'Canada', name: 'Toronto' },
+//   { country: 'Japan', name: 'Tokyo' },
+//   { country: 'China', name: 'KongKok' },
+//   { country: 'Germany', name: 'Berlin' },
+//   { country: 'Germany', name: 'Aachen' },
+// ];
 
-// const options = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+// function convert(arr: any[]) {
+//   const res = [];
+
+// for (let i = 0; i < arr.length; i += 1) {
+//   const country = arr[i].name;
+//   for (let j = 0; j < arr[i].states.length; j += 1) {
+//     const { name } = arr[i].states[j];
+//     res.push({ country, name });
+//   }
+// }
+
+// return res;
+// }
 
 function App() {
   const [value, setValue] = useState('');
+  const [options, setOptions] = useState<CityType[]>([]);
+  const [fetching, isLoading] = useFetching(async () => {
+    const fetchedOptions = await CityService.fetchCities();
+    setOptions(fetchedOptions);
+  });
 
   const handleSearch = (newValue: string) => {
     setValue(newValue);
   };
 
+  useEffect(() => {
+    fetching();
+  }, []);
+
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', width: '100%' }}>
       <Container maxWidth="md" sx={{ py: 1 }}>
-        <SearchBar
-          options={(cities as Array<{ country: string; name: string }>)
-            .slice()
-            .sort((a, b) => a.name.localeCompare(b.name))}
-          onSearch={handleSearch}
-          getOptionLabel={(option) => option.name}
-          getDescriptionLabel={(option) => option.country}
-          placeholder="Search city"
-          maxOptions={10}
-        />
+        {isLoading ? (
+          <div>Loading</div>
+        ) : (
+          <SearchBar
+            options={options.slice().sort((a, b) => a.name.localeCompare(b.name))}
+            onSearch={handleSearch}
+            getOptionLabel={(option) => option.name}
+            getDescriptionLabel={(option) => option.country}
+            placeholder="Search city"
+            maxOptions={10}
+          />
+        )}
+
         <h1>{value}</h1>
       </Container>
     </Box>
