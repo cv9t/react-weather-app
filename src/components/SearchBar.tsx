@@ -34,6 +34,7 @@ interface SearchBarProps<T> {
   options: T[];
   onSearch: (newValue: string) => void;
   maxOptions?: number;
+  maxRecentOptions?: number;
   getOptionLabel?: (option: T) => string;
   getDescriptionLabel?: (option: T) => string;
   placeholder?: string;
@@ -43,6 +44,7 @@ function SearchBar<T>({
   options,
   onSearch,
   maxOptions = 5,
+  maxRecentOptions = 5,
   // @ts-ignore
   getOptionLabel = (option) => option,
   // @ts-ignore
@@ -58,30 +60,6 @@ function SearchBar<T>({
     return typeof option === 'string' ? option : getOptionLabel(option);
   };
 
-  const handleOpen = () => {
-    if (inputValue.length > 0) {
-      setOpen(true);
-    }
-  };
-
-  const handleChange = (_: SyntheticEvent<Element, Event>, newValue: string | T | null) => {
-    if (!newValue) return;
-
-    if (
-      typeof newValue !== 'string' &&
-      options.includes(newValue) &&
-      !recentOptions.includes(newValue)
-    ) {
-      setRecentOptions((rOptions) => [newValue, ...rOptions.slice(0, 4)]);
-    }
-
-    onSearch(getOptionLabelDependsOnType(newValue));
-  };
-
-  const handleInputChange = (_: SyntheticEvent<Element, Event>, newValue: string) => {
-    setInputValue(newValue);
-  };
-
   const filterOptions = (options: T[]) => {
     if (!inputValue) return recentOptions;
 
@@ -90,6 +68,38 @@ function SearchBar<T>({
         getOptionLabel(option).toLowerCase().startsWith(inputValue.toLowerCase())
       )
       .slice(0, maxOptions);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleChange = (_: SyntheticEvent<Element, Event>, newValue: string | T | null) => {
+    if (!newValue) return;
+
+    if (typeof newValue !== 'string' && options.includes(newValue)) {
+      const newValueIdx = recentOptions.indexOf(newValue);
+
+      if (newValueIdx !== -1) {
+        setRecentOptions((rOptions) => [
+          newValue,
+          ...rOptions.slice(0, newValueIdx),
+          ...rOptions.slice(newValueIdx + 1, maxRecentOptions),
+        ]);
+      } else {
+        setRecentOptions((rOptions) => [newValue, ...rOptions.slice(0, maxRecentOptions - 1)]);
+      }
+    }
+
+    onSearch(getOptionLabelDependsOnType(newValue));
+  };
+
+  const handleInputChange = (_: SyntheticEvent<Element, Event>, newValue: string) => {
+    setInputValue(newValue);
   };
 
   return (
@@ -103,7 +113,7 @@ function SearchBar<T>({
       options={options}
       onOpen={handleOpen}
       groupBy={() => (inputValue.length === 0 ? 'Recent' : '')}
-      onClose={() => setOpen(false)}
+      onClose={handleClose}
       onChange={handleChange}
       onInputChange={handleInputChange}
       getOptionLabel={(option) => (typeof option === 'string' ? option : getOptionLabel(option))}
