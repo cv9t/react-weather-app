@@ -33,7 +33,6 @@
     "eslint-plugin-react-hooks": "^4.4.0",
     "html-webpack-plugin": "^5.5.0",
     "husky": "^7.0.0",
-    "json-loader": "^0.5.7",
     "lint-staged": "^12.3.7",
     "prettier": "^2.6.2",
     "react-refresh": "^0.12.0",

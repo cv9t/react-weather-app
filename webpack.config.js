@@ -49,10 +49,6 @@ module.exports = (argv) => {
             },
           ],
         },
-        {
-          test: /\.json$/,
-          loader: 'json-loader',
-        },
       ],
     },
     plugins: webpackPlugins(isProd ? [new ReactRefreshWebpackPlugin()] : []),
