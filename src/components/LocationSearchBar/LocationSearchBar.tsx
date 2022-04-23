@@ -1,6 +1,6 @@
-import React, { memo, useState } from 'react';
-import { ListItemText, useAutocomplete, createFilterOptions } from '@mui/material';
+import React, { memo, useEffect, useState } from 'react';
 import usePlacesService from 'react-google-autocomplete/lib/usePlacesAutocompleteService';
+import { useAutocomplete, createFilterOptions, ListItemText } from '@mui/material';
 import {
   LocationSearchBarWrapper,
   StyledInput,
@@ -9,84 +9,82 @@ import {
 } from './LocationSearchBar.styled';
 import { LocationType } from '../../types';
 
-const filter = createFilterOptions<LocationType>();
-
+const filter = createFilterOptions<google.maps.places.AutocompletePrediction>();
 interface LocationSearchBarProps {
-  value: LocationType | null;
-  onSearch: (value: LocationType) => void;
-  cleanOnSearch?: boolean;
+  handleSearch: (value: LocationType | string) => void;
+  handleSearchResultsReceive: (value: LocationType[]) => void;
+  handleLoading: (value: boolean) => void;
   placeholder?: string;
 }
 
 function LocationSearchBar({
-  value,
-  onSearch,
+  handleSearch,
+  handleSearchResultsReceive,
+  handleLoading,
   placeholder,
-  cleanOnSearch = false,
 }: LocationSearchBarProps) {
-  const [selected, setSelected] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const [optionSelected, setOptionSelected] = useState(false);
   const { placePredictions, getPlacePredictions, isPlacePredictionsLoading } = usePlacesService({
     apiKey: process.env.GOOGLE_PLACES_AUTOCOMPLETE_API_KEY,
     options: {
       input: '',
       types: ['(cities)'],
     },
-    debounce: 200,
   });
   const { getRootProps, getInputProps, getListboxProps, getOptionProps, groupedOptions } =
     useAutocomplete({
-      value,
-      autoHighlight: true,
+      freeSolo: true,
       selectOnFocus: true,
       blurOnSelect: true,
-      freeSolo: true,
-      clearOnBlur: cleanOnSearch,
+      inputValue,
       options: placePredictions as LocationType[],
-      filterOptions: (options, params) => {
-        const filtered = filter(options, params);
-
-        if (!isPlacePredictionsLoading) {
-          if (params.inputValue !== '' && filtered.length === 0 && !isPlacePredictionsLoading) {
-            filtered.push({
-              inputValue: params.inputValue,
-              description: `Search for "${params.inputValue}"`,
-              place_id: '',
-            } as LocationType);
-          }
-
-          return filtered;
+      isOptionEqualToValue: (option, value) => option.place_id === value.place_id,
+      onInputChange: (_, value: string, reason) => {
+        if (reason === 'reset') {
+          setInputValue('');
+        } else {
+          getPlacePredictions({ input: value });
+          setInputValue(value);
         }
+      },
+      onChange: (_, value) => {
+        if (!value) return;
 
-        return [];
+        if (typeof value === 'string') {
+          handleSearch(value);
+          handleLoading(true);
+          setOptionSelected(false);
+        } else {
+          handleSearch(value);
+          setOptionSelected(true);
+        }
       },
       getOptionLabel: (option) => {
         if (typeof option === 'string') {
           return option;
         }
 
-        if (option.inputValue) {
-          return option.inputValue;
-        }
-
         return option.description;
       },
-      isOptionEqualToValue: (option, value) => option.place_id === value.place_id,
-      onInputChange: (_, value: string) => {
-        getPlacePredictions({ input: value });
-        if (selected) {
-          setSelected(false);
-        }
-      },
-      onChange: (_, value) => {
-        if (typeof value !== 'string' && value) {
-          onSearch({ description: value.inputValue || value.description } as LocationType);
-        } else if (value) {
-          onSearch({ description: value } as LocationType);
+      filterOptions: (options, params) => {
+        if (params.inputValue !== '') {
+          const filtered = filter(options, params);
+
+          return filtered;
         }
 
-        setSelected(true);
+        return [];
       },
     });
+
+  useEffect(() => {
+    if (!isPlacePredictionsLoading && !optionSelected) {
+      handleSearchResultsReceive(placePredictions);
+      handleLoading(false);
+      setOptionSelected(true);
+    }
+  }, [placePredictions, optionSelected]);
 
   return (
     <LocationSearchBarWrapper>
@@ -98,14 +96,7 @@ function LocationSearchBar({
           placeholder={placeholder}
         />
       </div>
-      {!selected && isPlacePredictionsLoading && (
-        <StyledList>
-          <StyledListItem>
-            <ListItemText primary="Loading..." />
-          </StyledListItem>
-        </StyledList>
-      )}
-      {groupedOptions.length > 0 && (
+      {groupedOptions.length > 0 ? (
         <StyledList {...getListboxProps()}>
           {(groupedOptions as typeof placePredictions).map((option, index) => (
             <StyledListItem {...getOptionProps({ option, index })}>
@@ -113,7 +104,7 @@ function LocationSearchBar({
             </StyledListItem>
           ))}
         </StyledList>
-      )}
+      ) : null}
     </LocationSearchBarWrapper>
   );
 }

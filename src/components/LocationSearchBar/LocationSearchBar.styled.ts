@@ -1,8 +1,9 @@
 import { InputBase, styled, List, ListItem } from '@mui/material';
 
-export const LocationSearchBarWrapper = styled('div')(() => ({
-  position: 'relative',
-}));
+export const LocationSearchBarWrapper = styled('div')`
+  position: relative;
+  width: 100%;
+`;
 
 export const StyledInput = styled(InputBase)(({ theme }) => ({
   width: '100%',
@@ -32,7 +33,6 @@ export const StyledList = styled(List)(({ theme }) => ({
 
 export const StyledListItem = styled(ListItem)(({ theme }) => ({
   borderBottom: '1px solid #d9d9d9',
-  transition: theme.transitions.create(['color'], { duration: 100 }),
   '&:last-child': {
     borderBottom: '1px solid transparent',
   },

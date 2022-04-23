@@ -7,9 +7,9 @@ function geocodeByAddress(address: string): Promise<google.maps.GeocoderResult[]
       { address },
       (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
         if (status !== OK) {
-          return reject(status);
+          reject(status);
         }
-        return resolve(results);
+        resolve(results);
       }
     );
   });
