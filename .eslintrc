@@ -23,6 +23,7 @@
     "react/require-default-props": 0,
     "react/jsx-props-no-spreading": 0,
     "@typescript-eslint/ban-ts-comment": 0,
-    "@typescript-eslint/no-shadow": 0
+    "@typescript-eslint/no-shadow": 0,
+    "import/no-cycle": 0
   }
 }

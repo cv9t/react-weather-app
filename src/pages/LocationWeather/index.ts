@@ -1,0 +1,1 @@
+export { LocationWeather } from './LocationWeather';

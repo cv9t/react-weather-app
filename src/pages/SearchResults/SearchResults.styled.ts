@@ -1,4 +1,4 @@
-import { ListItem, styled } from '@mui/material';
+import { styled, ListItem } from '@mui/material';
 
 export const LoaderWrapper = styled('div')`
   position: absolute;
@@ -14,7 +14,6 @@ export const LoaderWrapper = styled('div')`
 export const Container = styled('div')`
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
 `;
 
 export const StyledListItem = styled(ListItem)(({ theme }) => ({

@@ -1,8 +1,24 @@
 import React from 'react';
 import { StyledEngineProvider, ThemeProvider, GlobalStyles } from '@mui/material';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { SnackbarProvider } from 'notistack';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { theme } from '../../styles';
-import { Home } from '../../pages';
+import { Home, NotFound, SearchResults, LocationWeather } from '../../pages';
+import { RecentLocationsProvider } from '../../context';
+import { Layout } from '..';
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="search-results/:query" element={<SearchResults />} />
+        <Route path="location/:placeId" element={<LocationWeather />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
+  );
+}
 
 const inputGlobalStyles = () => (
   <GlobalStyles
@@ -19,19 +35,21 @@ const inputGlobalStyles = () => (
   />
 );
 
-function App() {
+function AppWithProviders() {
   return (
-    <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={theme}>
-        {inputGlobalStyles()}
-
-        <Routes>
-          <Route path="/*" element={<Home />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </ThemeProvider>
-    </StyledEngineProvider>
+    <SnackbarProvider maxSnack={3} autoHideDuration={2000}>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          {inputGlobalStyles()}
+          <BrowserRouter>
+            <RecentLocationsProvider>
+              <App />
+            </RecentLocationsProvider>
+          </BrowserRouter>
+        </ThemeProvider>
+      </StyledEngineProvider>
+    </SnackbarProvider>
   );
 }
 
-export { App };
+export { AppWithProviders };

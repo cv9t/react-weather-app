@@ -1,3 +1,10 @@
-export interface LocationType extends google.maps.places.AutocompletePrediction {
-  inputValue?: string;
+export interface CoordsType {
+  lat: number;
+  lng: number;
+}
+
+export interface LocationType {
+  description: string;
+  placeId: string;
+  coords: CoordsType;
 }

@@ -1,11 +1,5 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import { App } from './components/App';
+import { AppWithProviders } from './components';
 
-render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
-  document.getElementById('root') as HTMLDivElement
-);
+render(<AppWithProviders />, document.getElementById('root') as HTMLDivElement);

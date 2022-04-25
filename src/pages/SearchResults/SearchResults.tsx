@@ -1,24 +1,32 @@
-import React, { memo } from 'react';
+import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { CircularProgress, Typography, List } from '@mui/material';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { LocationType } from '../../types';
+import { usePlaces, useRecentLocations } from '../../hooks';
+import { getLatLngByAddress } from '../../utils';
 import { Container, LoaderWrapper, StyledListItem } from './SearchResults.styled';
 
-interface SearchResultsProps {
-  isLoading: boolean;
-  searchQuery: string;
-  searchResults: LocationType[];
-}
-
 function SearchResults() {
-  const { isLoading, searchResults, searchQuery } = useLocation().state as SearchResultsProps;
+  const { query } = useParams();
   const navigate = useNavigate();
+  const { saveRecentLocation } = useRecentLocations();
+  const { placePredictions, getPlacePredictions, isPlacePredictionsLoading } = usePlaces();
 
-  const handleClick = (value: string) => {
-    navigate(`/location/${value}`);
+  React.useEffect(() => {
+    getPlacePredictions({ input: query as string });
+  }, [query]);
+
+  const handleClick = async (placePrediction: google.maps.places.AutocompletePrediction) => {
+    const coords = await getLatLngByAddress(placePrediction.description);
+    const location = {
+      description: placePrediction.description,
+      placeId: placePrediction.place_id,
+      coords,
+    };
+    saveRecentLocation(location);
+    navigate(`location/${location.placeId}`, { state: { location } });
   };
 
-  if (isLoading) {
+  if (isPlacePredictionsLoading) {
     return (
       <LoaderWrapper>
         <CircularProgress />
@@ -28,25 +36,22 @@ function SearchResults() {
 
   return (
     <Container>
-      {searchResults.length > 0 ? (
+      {placePredictions.length > 0 ? (
         <>
           <Typography my={1} color="text.secondary">
-            Found {searchResults.length} locations for &quot;{searchQuery}&quot;
+            Found {placePredictions.length} locations for &quot;{query}&quot;
           </Typography>
           <List>
-            {searchResults.map((result) => (
-              <StyledListItem
-                key={result.description}
-                onClick={() => handleClick(result.description)}
-              >
-                {result.description}
+            {placePredictions.map((p) => (
+              <StyledListItem key={p.description} onClick={() => handleClick(p)}>
+                {p.description}
               </StyledListItem>
             ))}
           </List>
         </>
       ) : (
         <>
-          <Typography variant="h4">No results found.</Typography>
+          <Typography variant="h4">No results found. 🤔</Typography>
           <Typography mt={1} color="text.secondary">
             Try to enter the correct city name
           </Typography>
@@ -56,6 +61,4 @@ function SearchResults() {
   );
 }
 
-const MemoizedSearchResults = memo(SearchResults);
-
-export { MemoizedSearchResults as SearchResults };
+export { SearchResults };

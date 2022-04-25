@@ -1,9 +1,4 @@
-import { InputBase, styled, List, ListItem } from '@mui/material';
-
-export const LocationSearchBarWrapper = styled('div')`
-  position: relative;
-  width: 100%;
-`;
+import { styled, InputBase, autocompleteClasses } from '@mui/material';
 
 export const StyledInput = styled(InputBase)(({ theme }) => ({
   width: '100%',
@@ -20,27 +15,27 @@ export const StyledInput = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export const StyledList = styled(List)(({ theme }) => ({
-  position: 'absolute',
-  width: '100%',
-  margin: '8px 0 0',
-  padding: 0,
-  borderRadius: 4,
-  backgroundColor: theme.palette.mode === 'dark' ? '#141414' : '#fff',
-  zIndex: 1000,
-  boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
-}));
+export const StyledAutocompletePopper = styled('div')(() => ({
+  position: 'relative',
 
-export const StyledListItem = styled(ListItem)(({ theme }) => ({
-  borderBottom: '1px solid #d9d9d9',
-  '&:last-child': {
-    borderBottom: '1px solid transparent',
+  [`& .${autocompleteClasses.paper}`]: {
+    position: 'absolute',
+    width: '100%',
+    zIndex: 1000,
+    marginTop: 8,
+    backgroundColor: '#fff',
   },
-  '&.Mui-focused': {
-    color: theme.palette.primary.main,
-    cursor: 'pointer',
-  },
-  '&.Mui-focusVisible': {
-    backgroundColor: 'transparent',
+  [`& .${autocompleteClasses.listbox}`]: {
+    padding: 0,
+    [`& .${autocompleteClasses.option}`]: {
+      padding: '12px 16px',
+      borderBottom: '1px solid #d9d9d9',
+      '&:last-child': {
+        borderBottom: '1px solid transparent',
+      },
+      '&.Mui-focusVisible': {
+        backgroundColor: '#f5f5f5',
+      },
+    },
   },
 }));

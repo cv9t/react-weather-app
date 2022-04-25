@@ -1,3 +1,4 @@
-export { Home } from './Home';
-export { SearchResults } from './SearchResults';
-export { Weather } from './Weather';
+export * from './Home';
+export * from './SearchResults';
+export * from './LocationWeather';
+export * from './NotFound';
