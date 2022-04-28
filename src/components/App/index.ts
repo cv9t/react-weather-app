@@ -1,1 +1,0 @@
-export { AppWithProviders } from './App';

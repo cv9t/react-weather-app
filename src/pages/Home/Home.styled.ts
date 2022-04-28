@@ -1,17 +1,17 @@
-import { styled } from '@mui/material';
+import { styled } from '@mui/material'
 
-export const Container = styled('div')`
+export const HomeContainer = styled('div')`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
-`;
+`
 
 export const RecentLocationsContainer = styled('div')`
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
   justify-content: center;
-  margin: 14px auto 0;
-`;
+  gap: 20px;
+  margin: 20px auto 0;
+`

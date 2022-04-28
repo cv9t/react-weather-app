@@ -1,17 +1,17 @@
-import { Typography } from '@mui/material';
-import React from 'react';
+import React from 'react'
+import { Typography } from '@mui/material'
 
 function NotFound() {
   return (
     <>
-      <Typography variant="h5" align="center">
+      <Typography variant="h5" align="center" mb={1}>
         We can&apos;t find the page you are looking for. 😔{' '}
       </Typography>
-      <Typography mt={1} align="center" color="text.secondary">
+      <Typography color="text.secondary" align="center">
         Try to reload the page
       </Typography>
     </>
-  );
+  )
 }
 
-export { NotFound };
+export { NotFound }

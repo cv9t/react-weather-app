@@ -1,4 +1,3 @@
-export * from './useFetch';
-export * from './useLocalStorage';
-export * from './usePlaces';
-export * from './useRecentLocations';
+export * from './useLocalStorage'
+export * from './useRecentLocations'
+export * from './useFetch'

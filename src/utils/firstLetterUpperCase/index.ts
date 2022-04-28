@@ -1,1 +1,0 @@
-export { firstLetterUpperCase } from './firstLetterUpperCase';

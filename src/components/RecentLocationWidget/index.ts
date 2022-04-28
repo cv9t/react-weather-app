@@ -1,1 +1,0 @@
-export { RecentLocationWidget } from './RecentLocationWidget';

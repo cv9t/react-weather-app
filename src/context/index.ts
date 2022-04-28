@@ -1,1 +1,1 @@
-export * from './RecentLocationsContext';
+export * from './RecentLocations'

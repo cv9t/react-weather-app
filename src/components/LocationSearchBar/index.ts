@@ -1,1 +1,0 @@
-export { LocationSearchBar } from './LocationSearchBar';

@@ -1,5 +1,5 @@
-import React from 'react';
-import { render } from 'react-dom';
-import { AppWithProviders } from './components';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { AppWithProviders } from './components'
 
-render(<AppWithProviders />, document.getElementById('root') as HTMLDivElement);
+ReactDOM.render(<AppWithProviders />, document.getElementById('root'))

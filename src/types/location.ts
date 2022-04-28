@@ -1,10 +1,10 @@
-export interface CoordsType {
-  lat: number;
-  lng: number;
+export interface LatLngType {
+  lat: number
+  lng: number
 }
 
 export interface LocationType {
-  description: string;
-  placeId: string;
-  coords: CoordsType;
+  placeId: string
+  description: string
+  coords: LatLngType
 }

@@ -18,6 +18,11 @@ module.exports = (argv) => {
     const defaultPlugins = [
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, './public/index.html'),
+        // apiUrl: `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_PLACES_AUTOCOMPLETE_API_KEY}&libraries=places`,
+        // filename: 'index.html',
+        // templateParameters: {
+        //   google_api_key: process.env.GOOGLE_PLACES_AUTOCOMPLETE_API_KEY,
+        // },
       }),
       new webpack.DefinePlugin(envKeys),
     ];
