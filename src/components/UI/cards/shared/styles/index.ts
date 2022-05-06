@@ -1,6 +1,6 @@
 import { IconButton, styled } from '@mui/material'
 
-export const WeatherCardContainer = styled('div')(() => ({
+export const CardContainer = styled('div')(() => ({
   position: 'relative',
   display: 'flex',
   alignItems: 'center',
@@ -11,28 +11,14 @@ export const WeatherCardContainer = styled('div')(() => ({
   overflow: 'hidden',
 }))
 
-export const DateWrapper = styled('div')`
-  display: flex;
-  width: 28px;
-  flex-direction: column;
-  align-items: center;
-  margin-right: 48px;
-`
-
 export const ImgWrapper = styled('div')`
   margin-right: 16px;
-`
-
-export const WeatherWrapper = styled('div')`
-  display: flex;
-  width: 96px;
-  margin-right: 64px;
 `
 
 export const MainStatsWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   flexGrow: 1,
-  justifyContent: 'space-between',
+  justifyContent: 'space-around',
 
   '& svg': {
     marginRight: 8,

@@ -6,6 +6,10 @@ import {
   OneCallDailyWeatherType,
   DailyWeatherType,
   OneCallWeatherAlertType,
+  OneCallHourlyWeatherType,
+  HourlyWeatherType,
+  OneCallCurrentWeatherType,
+  CurrentWeatherType,
 } from '../types'
 import { capitalizeString } from './capitalizeString'
 
@@ -18,6 +22,20 @@ function getUniqueAlerts(alerts: OneCallWeatherAlertType[]) {
     }
   }
   return res
+}
+
+function getCurrentWeather(weatherData: OneCallCurrentWeatherType) {
+  const weather: CurrentWeatherType = {
+    dt: moment(weatherData.dt, 'X'),
+    temp: Math.round(weatherData.temp),
+    feels_like: Math.round(weatherData.feels_like),
+    description: capitalizeString(weatherData.weather[0].description),
+    icon: {
+      src: `http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`,
+    },
+  }
+
+  return weather
 }
 
 function getDailyWeather(weatherData: OneCallDailyWeatherType) {
@@ -35,6 +53,25 @@ function getDailyWeather(weatherData: OneCallDailyWeatherType) {
     icon: {
       src: `http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`,
     },
+    pop: Math.round(weatherData.pop * 100),
+  }
+
+  return weather
+}
+
+function getHourlyWeather(weatherData: OneCallHourlyWeatherType) {
+  const weather: HourlyWeatherType = {
+    dt: moment(weatherData.dt, 'X'),
+    temp: Math.round(weatherData.temp),
+    feels_like: Math.round(weatherData.feels_like),
+    wind_speed: Math.round(weatherData.wind_speed),
+    humidity: weatherData.humidity,
+    clouds: weatherData.clouds,
+    description: capitalizeString(weatherData.weather[0].description),
+    icon: {
+      src: `http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`,
+    },
+    pop: Math.round(weatherData.pop * 100),
   }
 
   return weather
@@ -43,16 +80,9 @@ function getDailyWeather(weatherData: OneCallDailyWeatherType) {
 function getWeatherInfo(weatherData: OneCallWeatherDataType) {
   const weather: WeatherType = {
     alerts: weatherData.alerts ? getUniqueAlerts(weatherData.alerts) : [],
-    current: {
-      dt: moment(weatherData.current.dt, 'X'),
-      temp: Math.round(weatherData.current.temp),
-      feels_like: Math.round(weatherData.current.feels_like),
-      description: capitalizeString(weatherData.current.weather[0].description),
-      icon: {
-        src: `http://openweathermap.org/img/wn/${weatherData.current.weather[0].icon}@2x.png`,
-      },
-    },
+    current: getCurrentWeather(weatherData.current),
     daily: weatherData.daily.map(getDailyWeather),
+    hourly: weatherData.hourly.map(getHourlyWeather),
   }
 
   return weather

@@ -121,10 +121,25 @@ export interface DailyWeatherType {
     day: number
     night: number
   }
+  pop: number
   feels_like: number
   wind_speed: number
   humidity: number
   clouds: number
+  description: string
+  icon: {
+    src: string
+  }
+}
+
+export interface HourlyWeatherType {
+  dt: Moment
+  temp: number
+  feels_like: number
+  wind_speed: number
+  humidity: number
+  clouds: number
+  pop: number
   description: string
   icon: {
     src: string
@@ -142,4 +157,5 @@ export interface WeatherType {
   alerts: WeatherAlertType[]
   current: CurrentWeatherType
   daily: DailyWeatherType[]
+  hourly: HourlyWeatherType[]
 }

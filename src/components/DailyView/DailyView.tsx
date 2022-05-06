@@ -1,7 +1,7 @@
 import React from 'react'
 import { DailyWeatherType, WeatherAlertType } from '../../types'
 import { DailyViewContainer, DateInterval } from './DailyView.styled'
-import { WeatherCard } from '../UI'
+import { WeatherDayCard } from '../UI'
 
 interface DailyViewProps {
   weather: DailyWeatherType[]
@@ -15,7 +15,7 @@ function DailyView({ weather, alerts }: DailyViewProps) {
         {`${weather[0].dt.format('MMM D')} - ${weather[weather.length - 1].dt.format('MMM D')}`}
       </DateInterval>
       {weather.map((w) => (
-        <WeatherCard key={w.dt.format('X')} weather={w} alerts={alerts} />
+        <WeatherDayCard key={w.dt.format('X')} weather={w} alerts={alerts} />
       ))}
     </DailyViewContainer>
   )

@@ -25,6 +25,8 @@ class WeatherService {
       }
     )
 
+    console.log(weatherData)
+
     const weather = getWeatherInfo(weatherData)
 
     return weather

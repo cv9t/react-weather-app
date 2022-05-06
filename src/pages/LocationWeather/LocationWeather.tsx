@@ -4,7 +4,7 @@ import { Box, Tabs, Typography, CircularProgress } from '@mui/material'
 import { useLocationWeather } from '../../hooks'
 import { LocationType } from '../../types'
 import { LocationWeatherContainer, StyledTab, LoaderWrapper } from './LocationWeather.styled'
-import { TabPanel, DailyView, TodayView } from '../../components'
+import { TabPanel, DailyView, TodayView, HourlyView } from '../../components'
 
 function LocationWeather() {
   const location = useLocation().state as LocationType
@@ -40,7 +40,7 @@ function LocationWeather() {
             <TodayView weather={locationWeather.current} />
           </TabPanel>
           <TabPanel value={weatherView} index={1}>
-            Hourly View
+            <HourlyView weather={locationWeather.hourly} alerts={locationWeather.alerts} />
           </TabPanel>
           <TabPanel value={weatherView} index={2}>
             <DailyView weather={locationWeather.daily} alerts={locationWeather.alerts} />
