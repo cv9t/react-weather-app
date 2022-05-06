@@ -7,8 +7,7 @@ import {
   StyledListItem,
   LocationSearchBarWrapper,
 } from './LocationSearchBar.styled'
-import { geocodeByAddress, getLatLng } from '../../../utils'
-import { LocationType } from '../../../types'
+import { LocationType } from '../../../../types'
 
 interface LocationSearchBarProps {
   onSelect: (location: LocationType) => void
@@ -26,8 +25,6 @@ function LocationSearchBar({ onSelect, placeholder }: LocationSearchBarProps) {
     },
   })
   const {
-    setAnchorEl,
-    focused,
     inputValue,
     getRootProps,
     getInputProps,
@@ -37,24 +34,11 @@ function LocationSearchBar({ onSelect, placeholder }: LocationSearchBarProps) {
   } = useAutocomplete({
     value: null,
     blurOnSelect: true,
-    onInputChange: (_, value) => {
-      if (value !== '') {
+    clearOnEscape: true,
+    onInputChange: (_, value, reason) => {
+      if (value !== '' && reason !== 'reset') {
         getPlacePredictions({ input: value })
       }
-    },
-    onChange: async (_, value) => {
-      if (!value) {
-        return
-      }
-
-      const results = await geocodeByAddress(value.description)
-      const latLng = await getLatLng(results[0])
-      const location: LocationType = {
-        description: value.description,
-        placeId: value.place_id,
-        coords: latLng,
-      }
-      onSelect(location)
     },
     options: placePredictions,
     getOptionLabel: (option) => option.description,
@@ -63,33 +47,19 @@ function LocationSearchBar({ onSelect, placeholder }: LocationSearchBarProps) {
         const filtered = filter(options, params)
         return filtered
       }
-
       return []
     },
+    onChange: (_, value) => {
+      if (!value) return
+
+      const location: LocationType = {
+        description: value.description,
+        placeId: value.place_id,
+      }
+
+      onSelect(location)
+    },
   })
-
-  const renderOptions = () => {
-    if ((inputValue && !groupedOptions.length) || isPlacePredictionsLoading) {
-      return (
-        <ListItem sx={{ padding: '6px 16px' }}>
-          <ListItemText
-            primary={
-              isPlacePredictionsLoading
-                ? 'Searching'
-                : 'No results. Enter the correct name of the city'
-            }
-            primaryTypographyProps={{ color: 'text.secondary' }}
-          />
-        </ListItem>
-      )
-    }
-
-    return (groupedOptions as typeof placePredictions).map((option, index) => (
-      <StyledListItem {...getOptionProps({ option, index })}>
-        <ListItemText primary={option.description} />
-      </StyledListItem>
-    ))
-  }
 
   return (
     <LocationSearchBarWrapper>
@@ -98,11 +68,29 @@ function LocationSearchBar({ onSelect, placeholder }: LocationSearchBarProps) {
           inputProps={{
             ...getInputProps(),
           }}
-          ref={setAnchorEl}
           placeholder={placeholder}
         />
       </div>
-      {focused && <StyledList {...getListboxProps()}>{renderOptions()}</StyledList>}
+      <StyledList {...getListboxProps()}>
+        {(inputValue && !groupedOptions.length) || isPlacePredictionsLoading ? (
+          <ListItem sx={{ padding: '6px 16px' }}>
+            <ListItemText
+              primary={
+                isPlacePredictionsLoading
+                  ? 'Searching'
+                  : 'No results. Enter the correct name of the city'
+              }
+              primaryTypographyProps={{ color: 'text.secondary' }}
+            />
+          </ListItem>
+        ) : (
+          (groupedOptions as typeof placePredictions).map((option, index) => (
+            <StyledListItem {...getOptionProps({ option, index })}>
+              <ListItemText primary={option.description} />
+            </StyledListItem>
+          ))
+        )}
+      </StyledList>
     </LocationSearchBarWrapper>
   )
 }

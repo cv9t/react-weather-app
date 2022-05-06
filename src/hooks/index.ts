@@ -1,3 +1,3 @@
 export * from './useLocalStorage'
 export * from './useRecentLocations'
-export * from './useFetch'
+export * from './useLocationWeather'

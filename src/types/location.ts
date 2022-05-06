@@ -6,5 +6,4 @@ export interface LatLngType {
 export interface LocationType {
   placeId: string
   description: string
-  coords: LatLngType
 }

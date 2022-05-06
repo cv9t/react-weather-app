@@ -1,14 +1,16 @@
 import axios from 'axios'
-import { LatLngType, WeatherDataType } from '../types'
+import { LocationType, WeatherDataType } from '../types'
+import { geocodeByAddress, getLatLng } from '../utils'
 
 const API_URL = {
   ONE_CALL: 'https://api.openweathermap.org/data/2.5/onecall?',
 }
 
 class WeatherService {
-  static ONE_CALL_API_URL = 'https://api.openweathermap.org/data/2.5/onecall?'
+  public static async getOneCallWeatherForecast(location: LocationType) {
+    const results = await geocodeByAddress(location.description)
+    const { lat, lng } = await getLatLng(results[0])
 
-  public static async getOneCallWeatherForecast({ lat, lng }: LatLngType) {
     const weather = await axios.get(API_URL.ONE_CALL, {
       params: {
         lat,
@@ -18,6 +20,8 @@ class WeatherService {
         appid: process.env.OPENWEATHER_API_KEY,
       },
     })
+
+    console.log(weather.data)
 
     return weather.data as WeatherDataType
   }

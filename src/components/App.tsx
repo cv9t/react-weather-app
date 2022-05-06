@@ -3,9 +3,10 @@ import { SnackbarProvider } from 'notistack'
 import { StyledEngineProvider, ThemeProvider, GlobalStyles } from '@mui/material'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { theme } from '../styles'
-import { Layout } from './Layout'
-import { Home, LocationWeather, NotFound } from '../pages'
 import { RecentLocationsProvider } from '../context'
+import { Layout } from './Layout'
+import { Home, NotFound, LocationWeather } from '../pages'
+import { LoadGoogleMap } from './LoadGoogleMap'
 
 function App() {
   return (
@@ -13,8 +14,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="*" element={<NotFound />} />
           <Route path="location/:locationId" element={<LocationWeather />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>
@@ -30,7 +31,7 @@ const inputGlobalStyles = () => (
       body: {
         fontFamily: 'Roboto',
         margin: 0,
-        padding: 0,
+        padding: '0 calc(20px - (100vw - 100%)) 0 0',
       },
     }}
   />
@@ -43,7 +44,9 @@ function AppWithProviders() {
         <SnackbarProvider maxSnack={3} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
           <RecentLocationsProvider>
             {inputGlobalStyles()}
-            <App />
+            <LoadGoogleMap>
+              <App />
+            </LoadGoogleMap>
           </RecentLocationsProvider>
         </SnackbarProvider>
       </ThemeProvider>

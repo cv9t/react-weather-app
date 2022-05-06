@@ -1,38 +1,33 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-const webpack = require('webpack');
-const dotenv = require('dotenv');
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
+const webpack = require('webpack')
+const dotenv = require('dotenv')
 
 module.exports = (argv) => {
-  const isProd = argv.env === 'production';
-  const mode = isProd ? 'production' : 'development';
-  const env = dotenv.config().parsed;
+  const isProd = argv.env === 'production'
+  const mode = isProd ? 'production' : 'development'
+  const env = dotenv.config().parsed
 
   const envKeys = Object.keys(env).reduce((prev, next) => {
-    prev[`process.env.${next}`] = JSON.stringify(env[next]);
-    return prev;
-  }, {});
+    prev[`process.env.${next}`] = JSON.stringify(env[next])
+    return prev
+  }, {})
 
   const webpackPlugins = (plugins = []) => {
     const defaultPlugins = [
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, './public/index.html'),
-        // apiUrl: `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_PLACES_AUTOCOMPLETE_API_KEY}&libraries=places`,
-        // filename: 'index.html',
-        // templateParameters: {
-        //   google_api_key: process.env.GOOGLE_PLACES_AUTOCOMPLETE_API_KEY,
-        // },
       }),
       new webpack.DefinePlugin(envKeys),
-    ];
+    ]
 
     if (plugins.length !== 0) {
-      defaultPlugins.concat(plugins);
+      defaultPlugins.concat(plugins)
     }
 
-    return defaultPlugins;
-  };
+    return defaultPlugins
+  }
 
   return {
     mode,
@@ -66,5 +61,5 @@ module.exports = (argv) => {
       ],
     },
     plugins: webpackPlugins(isProd ? [new ReactRefreshWebpackPlugin()] : []),
-  };
-};
+  }
+}
