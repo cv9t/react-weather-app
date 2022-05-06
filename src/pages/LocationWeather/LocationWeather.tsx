@@ -4,7 +4,7 @@ import { Box, Tabs, Typography, CircularProgress } from '@mui/material'
 import { useLocationWeather } from '../../hooks'
 import { LocationType } from '../../types'
 import { LocationWeatherContainer, StyledTab, LoaderWrapper } from './LocationWeather.styled'
-import { TabPanel, DailyView, HourlyView, TodayView } from '../../components'
+import { TabPanel, DailyView, TodayView } from '../../components'
 
 function LocationWeather() {
   const location = useLocation().state as LocationType
@@ -19,7 +19,7 @@ function LocationWeather() {
     return (
       <LoaderWrapper>
         <CircularProgress />
-        <Typography mt={2}>Searching for the weather 🕵️</Typography>
+        <Typography mt={2}>Searching for the weather... 🕵️</Typography>
       </LoaderWrapper>
     )
   }
@@ -37,19 +37,19 @@ function LocationWeather() {
           </Box>
 
           <TabPanel value={weatherView} index={0}>
-            <TodayView weather={locationWeather} />
+            <TodayView weather={locationWeather.current} />
           </TabPanel>
           <TabPanel value={weatherView} index={1}>
-            <HourlyView weather={locationWeather} />
+            Hourly View
           </TabPanel>
           <TabPanel value={weatherView} index={2}>
-            <DailyView weather={locationWeather} />
+            <DailyView weather={locationWeather.daily} alerts={locationWeather.alerts} />
           </TabPanel>
         </>
       ) : (
         <>
           <Typography variant="h5" align="center" mb={1}>
-            We can&apos;t get the weather forecast for current location you are looking for. 😔
+            We can&apos;t get the weather forecast for the current location you are looking for. 😔
           </Typography>
           <Typography color="text.secondary" align="center">
             Try to reload the page or search another location

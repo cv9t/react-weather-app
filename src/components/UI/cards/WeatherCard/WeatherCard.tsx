@@ -1,12 +1,12 @@
 import React from 'react'
 import clsx from 'clsx'
-import moment from 'moment'
 import { Box, Typography } from '@mui/material'
 import AirIcon from '@mui/icons-material/Air'
 import OpacityIcon from '@mui/icons-material/Opacity'
 import CloudQueueIcon from '@mui/icons-material/CloudQueue'
+import WarningIcon from '@mui/icons-material/Warning'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import { DailyWeatherType } from '../../../../types'
+import { DailyWeatherType, WeatherAlertType } from '../../../../types'
 import {
   WeatherCardContainer,
   DateWrapper,
@@ -15,19 +15,22 @@ import {
   MainStatsWrapper,
   StyledIconButton,
 } from './WeatherCard.styled'
-import { capitalizeString } from '../../../../utils'
+import { WarningTooltip } from '../../tooltips'
 
 interface WeatherCardProps {
   weather: DailyWeatherType
+  alerts: WeatherAlertType[]
 }
 
-function WeatherCard({ weather }: WeatherCardProps) {
+function WeatherCard({ weather, alerts }: WeatherCardProps) {
   const [open, setOpen] = React.useState(false)
-  const date = moment(weather.dt, 'X')
+  const currentAlerts = alerts.filter((alert) =>
+    weather.dt.isBetween(alert.start, alert.end, 'date', '[]')
+  )
   const mainStats = [
     {
       icon: <AirIcon />,
-      title: `${Math.round(weather.wind_speed)} m/s`,
+      title: `${weather.wind_speed} m/s`,
     },
     {
       icon: <OpacityIcon />,
@@ -46,26 +49,21 @@ function WeatherCard({ weather }: WeatherCardProps) {
   return (
     <WeatherCardContainer>
       <DateWrapper>
-        <Typography textTransform="uppercase">{date.format('ddd')}</Typography>
-        <Typography color="text.secondary">{date.format('M/D')}</Typography>
+        <Typography textTransform="uppercase">{weather.dt.format('ddd')}</Typography>
+        <Typography color="text.secondary">{weather.dt.format('M/D')}</Typography>
       </DateWrapper>
       <ImgWrapper>
-        <img
-          src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-          alt={weather.weather[0].main}
-        />
+        <img src={weather.icon.src} alt={weather.description} />
       </ImgWrapper>
       <WeatherWrapper>
-        <Typography variant="h3" fontWeight="400" sx={{ lineHeight: 1 }}>
-          {Math.round(weather.temp.day)}°
+        <Typography variant="h4" fontWeight="400" sx={{ lineHeight: 1 }}>
+          {weather.temp.day}°
         </Typography>
-        <Typography fontSize="20px" color="text.secondary" sx={{ marginTop: 'auto' }}>
-          /{Math.round(weather.temp.night)}°
+        <Typography color="text.secondary" sx={{ marginTop: 'auto' }}>
+          /{weather.temp.night}°
         </Typography>
       </WeatherWrapper>
-      <Typography sx={{ width: 120 }}>
-        {capitalizeString(weather.weather[0].description)}
-      </Typography>
+      <Typography sx={{ width: 120 }}>{weather.description}</Typography>
       <Box sx={{ flexGrow: 1 }} />
       <MainStatsWrapper>
         {mainStats.map((stat) => (
@@ -76,6 +74,11 @@ function WeatherCard({ weather }: WeatherCardProps) {
         ))}
       </MainStatsWrapper>
       <Box sx={{ flexGrow: 1 }} />
+      {currentAlerts.length > 0 && (
+        <WarningTooltip alerts={currentAlerts}>
+          <WarningIcon color="error" sx={{ marginRight: 2, '&:hover': { cursor: 'pointer' } }} />
+        </WarningTooltip>
+      )}
       <StyledIconButton className={clsx({ opened: open })} onClick={handleOpen}>
         <KeyboardArrowDownIcon />
       </StyledIconButton>

@@ -1,26 +1,21 @@
 import React from 'react'
-import moment from 'moment'
-import { WeatherDataType } from '../../types'
+import { DailyWeatherType, WeatherAlertType } from '../../types'
 import { DailyViewContainer, DateInterval } from './DailyView.styled'
 import { WeatherCard } from '../UI'
 
 interface DailyViewProps {
-  weather: WeatherDataType
+  weather: DailyWeatherType[]
+  alerts: WeatherAlertType[]
 }
 
-const convertToStringInterval = (weather: WeatherDataType) => {
-  const begin = moment(weather.daily[0].sunrise, 'X').format('MMM D')
-  const end = moment(weather.daily[weather.daily.length - 1].sunrise, 'X').format('MMM D')
-
-  return `${begin} - ${end}`
-}
-
-function DailyView({ weather }: DailyViewProps) {
+function DailyView({ weather, alerts }: DailyViewProps) {
   return (
     <DailyViewContainer>
-      <DateInterval>{convertToStringInterval(weather)}</DateInterval>
-      {weather.daily.map((weather) => (
-        <WeatherCard key={weather.dt} weather={weather} />
+      <DateInterval>
+        {`${weather[0].dt.format('MMM D')} - ${weather[weather.length - 1].dt.format('MMM D')}`}
+      </DateInterval>
+      {weather.map((w) => (
+        <WeatherCard key={w.dt.format('X')} weather={w} alerts={alerts} />
       ))}
     </DailyViewContainer>
   )

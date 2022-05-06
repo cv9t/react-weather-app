@@ -99,7 +99,7 @@ export const StyledPaper = styled(Paper)`
   }
 `
 
-export const LocationAlert = styled('span')(({ theme }) => ({
+export const LocationAlertTitle = styled('span')(({ theme }) => ({
   position: 'absolute',
   top: '7px',
   left: '-12px',

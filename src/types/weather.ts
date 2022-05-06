@@ -1,4 +1,6 @@
-export type CurrentWeatherType = {
+import { Moment } from 'moment'
+
+export type OneCallCurrentWeatherType = {
   dt: number
   sunrise: number
   sunset: number
@@ -24,7 +26,7 @@ export type CurrentWeatherType = {
   }
 }
 
-export type DailyWeatherType = {
+export type OneCallDailyWeatherType = {
   dt: number
   sunrise: number
   sunset: number
@@ -63,19 +65,81 @@ export type DailyWeatherType = {
   uvi: number
 }
 
-export interface WeatherAlertType {
+export type OneCallHourlyWeatherType = {
+  dt: number
+  sunrise: number
+  temp: number
+  feels_like: number
+  pressure: number
+  humidity: number
+  dew_point: number
+  wind_speed: number
+  wind_deg: number
+  wind_gust: number
+  weather: {
+    id: number
+    main: string
+    description: string
+    icon: string
+  }[]
+  clouds: number
+  pop: number
+  uvi: number
+}
+
+export interface OneCallWeatherAlertType {
   start: number
   end: number
   event: string
   tags: string[]
 }
 
-export interface WeatherDataType {
-  alerts: WeatherAlertType[]
+export interface OneCallWeatherDataType {
+  alerts: OneCallWeatherAlertType[]
   lat: number
   lon: number
   timezone: string
   timezone_offset: number
+  current: OneCallCurrentWeatherType
+  daily: OneCallDailyWeatherType[]
+  hourly: OneCallHourlyWeatherType[]
+}
+
+export interface CurrentWeatherType {
+  dt: Moment
+  temp: number
+  feels_like: number
+  description: string
+  icon: {
+    src: string
+  }
+}
+
+export interface DailyWeatherType {
+  dt: Moment
+  temp: {
+    day: number
+    night: number
+  }
+  feels_like: number
+  wind_speed: number
+  humidity: number
+  clouds: number
+  description: string
+  icon: {
+    src: string
+  }
+}
+
+export interface WeatherAlertType {
+  start: Moment
+  end: Moment
+  event: string
+  tags: string[]
+}
+
+export interface WeatherType {
+  alerts: WeatherAlertType[]
   current: CurrentWeatherType
   daily: DailyWeatherType[]
 }

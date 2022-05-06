@@ -40,9 +40,10 @@ export const MainStatsWrapper = styled('div')(({ theme }) => ({
   },
 }))
 
-export const StyledIconButton = styled(IconButton)`
-  transform: rotate(-180deg);
-  &.opened {
-    transform: rotate(0);
-  }
-`
+export const StyledIconButton = styled(IconButton)(({ theme }) => ({
+  transform: 'rotate(-180deg)',
+  transition: theme.transitions.create(['transform']),
+  '&.opened': {
+    transform: 'rotate(0deg)',
+  },
+}))

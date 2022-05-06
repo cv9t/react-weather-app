@@ -1,12 +1,12 @@
 import React from 'react'
-import { WeatherDataType } from '../../types'
+import { CurrentWeatherType } from '../../types'
 
 interface TodayViewProps {
-  weather: WeatherDataType
+  weather: CurrentWeatherType
 }
 
 function TodayView({ weather }: TodayViewProps) {
-  return <div>Today View</div>
+  return <div>{weather.feels_like}</div>
 }
 
 export { TodayView }
