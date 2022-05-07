@@ -1,10 +1,10 @@
 import { styled, InputBase, List, ListItem } from '@mui/material'
 import { grey } from '@mui/material/colors'
 
-export const LocationSearchBarContainer = styled('div')`
-  position: relative;
-  width: 100%;
-`
+export const LocationSearchBarContainer = styled('div')(() => ({
+  position: 'relative',
+  width: '100%',
+}))
 
 export const Input = styled(InputBase)(({ theme }) => ({
   width: '100%',

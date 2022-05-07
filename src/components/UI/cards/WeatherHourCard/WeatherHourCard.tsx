@@ -4,6 +4,7 @@ import AirIcon from '@mui/icons-material/Air'
 import OpacityIcon from '@mui/icons-material/Opacity'
 import { HourlyWeatherType, WeatherAlertType } from '../../../../types'
 import { WeatherCard } from '../WeatherCard'
+import { AdditionalInformationType } from '../shared/types'
 
 interface WeatherHourCardProps {
   weather: HourlyWeatherType
@@ -25,12 +26,48 @@ function WeatherHourCard({ weather, alerts, opened }: WeatherHourCardProps) {
     },
   ]
 
+  const additionalInformation: AdditionalInformationType[] = [
+    {
+      title: 'Temperature',
+      value: `${weather.temp}°`,
+    },
+    {
+      title: 'Humidity',
+      value: `${weather.humidity}%`,
+    },
+    {
+      title: 'Cloudiness',
+      value: `${weather.clouds}%`,
+    },
+    {
+      title: 'Pressure',
+      value: `${weather.pressure} hPa`,
+    },
+    {
+      title: 'Visibility',
+      value: `${weather.visibility} km`,
+    },
+    {
+      title: 'Wind Gust',
+      value: `${weather.wind_gust} m/s`,
+    },
+    {
+      title: 'Wind Direction (Deg)',
+      value: `${weather.wind_deg}°`,
+    },
+    {
+      title: 'UV index',
+      value: `${weather.uvi}`,
+    },
+  ]
+
   return (
     <WeatherCard
       opened={opened}
       alerts={alerts}
+      additionalInformation={additionalInformation}
       renderDate={() => (
-        <Typography textTransform="uppercase">{weather.dt.format('hh A')}</Typography>
+        <Typography textTransform="uppercase">{weather.dt.format('h A')}</Typography>
       )}
       renderImg={() => <img src={weather.icon.src} alt={weather.description} />}
       renderTemperature={() => (

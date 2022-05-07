@@ -8,20 +8,18 @@ export const HeaderContainer = styled(AppBar)(({ theme }) => ({
   alignItems: 'center',
   boxShadow: 'none',
   borderBottom: `1px solid ${grey[300]}`,
+
   '& .MuiToolbar-root': {
     padding: 0,
   },
 }))
 
-export const Title = styled(Typography)`
-  margin-right: 40px;
-  cursor: pointer;
+export const Title = styled(Typography)(() => ({
+  marginRight: 40,
+  cursor: 'pointer',
 
-  a,
-  a:hover,
-  a:focus,
-  a:active {
-    text-decoration: none;
-    color: inherit;
-  }
-`
+  'a, a:hover, a:focus, a:active': {
+    textDecoration: 'none',
+    color: 'inherit',
+  },
+}))

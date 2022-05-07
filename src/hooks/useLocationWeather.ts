@@ -14,7 +14,7 @@ function useLocationWeather<T extends LocationType[] | LocationType>(
   const { enqueueSnackbar } = useSnackbar()
 
   React.useEffect(() => {
-    const source = axios.CancelToken.source()
+    let source = axios.CancelToken.source()
 
     const fetchedWeather = async () => {
       try {
@@ -56,6 +56,7 @@ function useLocationWeather<T extends LocationType[] | LocationType>(
     return () => {
       if (source) {
         source.cancel()
+        source = axios.CancelToken.source()
       }
     }
   }, [location])

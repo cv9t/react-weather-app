@@ -3,12 +3,12 @@ import { useLocation } from 'react-router-dom'
 import { Box, Tabs, Typography, CircularProgress } from '@mui/material'
 import { useLocationWeather } from '../../hooks'
 import { LocationType } from '../../types'
-import { LocationWeatherContainer, StyledTab, LoaderWrapper } from './LocationWeather.styled'
+import { LocationWeatherContainer, WeatherViewTab, LoaderWrapper } from './LocationWeather.styled'
 import { TabPanel, DailyView, TodayView, HourlyView } from '../../components'
 
 function LocationWeather() {
   const location = useLocation().state as LocationType
-  const [weatherView, setWeatherView] = React.useState(2)
+  const [weatherView, setWeatherView] = React.useState(0)
   const [locationWeather, locationWeatherLoading] = useLocationWeather(location)
 
   const handleWeatherViewChange = (_: React.SyntheticEvent, value: number) => {
@@ -30,9 +30,9 @@ function LocationWeather() {
         <>
           <Box sx={{ marginTop: -2, borderBottom: 1, borderColor: 'divider' }}>
             <Tabs value={weatherView} onChange={handleWeatherViewChange}>
-              <StyledTab label="Today" disableRipple />
-              <StyledTab label="Hourly" disableRipple />
-              <StyledTab label="Daily" disableRipple />
+              <WeatherViewTab label="Today" disableRipple />
+              <WeatherViewTab label="Hourly" disableRipple />
+              <WeatherViewTab label="Daily" disableRipple />
             </Tabs>
           </Box>
 

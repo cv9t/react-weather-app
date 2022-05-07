@@ -1,6 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
-import { Box, Divider, Tooltip, Typography } from '@mui/material'
+import { Box, Divider, Grid, Tooltip, Typography } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import WarningIcon from '@mui/icons-material/Warning'
 import { grey } from '@mui/material/colors'
@@ -16,8 +16,10 @@ import {
   WeatherCardBody,
   AlertsContainer,
   AlertWrapper,
+  InformationWrapper,
 } from './WeatherCard.styled'
 import { WeatherAlertType } from '../../../../types'
+import { AdditionalInformationType } from '../shared/types'
 
 interface WeatherCardProps {
   renderDate: () => React.ReactNode
@@ -26,6 +28,7 @@ interface WeatherCardProps {
   renderDescription: () => React.ReactNode
   renderStats: () => React.ReactNode
   alerts: WeatherAlertType[]
+  additionalInformation: AdditionalInformationType[]
   opened?: boolean
 }
 
@@ -36,6 +39,7 @@ function WeatherCard({
   renderDescription,
   renderStats,
   alerts,
+  additionalInformation,
   opened,
 }: WeatherCardProps) {
   const [open, setOpen] = React.useState(opened)
@@ -71,7 +75,7 @@ function WeatherCard({
                 <WarningIcon color="error" sx={{ marginRight: 1 }} />
                 <Typography textTransform="uppercase">Alerts</Typography>
               </Box>
-              <Divider color={grey[300]} sx={{ margin: '12px 0 ' }} />
+              <Divider color={grey[300]} sx={{ margin: '10px 0 12px' }} />
               {alerts.map((alert, idx) => (
                 <AlertWrapper key={idx}>
                   <Typography fontWeight={500} lineHeight={1}>
@@ -84,6 +88,21 @@ function WeatherCard({
               ))}
             </AlertsContainer>
           )}
+          <Typography fontWeight={500} mb={2}>
+            Additional Information
+          </Typography>
+          <Grid container alignItems="center" spacing={2}>
+            {additionalInformation.map((info) => (
+              <Grid key={info.title} item md={4} sm={6} xs={12}>
+                <InformationWrapper>
+                  <Typography fontSize={14} fontWeight={500} color="text.secondary">
+                    {info.title}
+                  </Typography>
+                  <Typography>{info.value}</Typography>
+                </InformationWrapper>
+              </Grid>
+            ))}
+          </Grid>
         </WeatherCardBody>
       )}
     </WeatherCardContainer>

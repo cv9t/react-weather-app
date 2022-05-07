@@ -85,6 +85,7 @@ export type OneCallHourlyWeatherType = {
   clouds: number
   pop: number
   uvi: number
+  visibility: number
 }
 
 export interface OneCallWeatherAlertType {
@@ -120,11 +121,22 @@ export interface DailyWeatherType {
   temp: {
     day: number
     night: number
+    min: number
+    max: number
+    morn: number
   }
   pop: number
-  feels_like: number
+  feels_like: {
+    day: number
+    night: number
+    morn: number
+  }
+  dew_point: number
   wind_speed: number
+  wind_gust: number
+  wind_deg: number
   humidity: number
+  pressure: number
   clouds: number
   description: string
   icon: {
@@ -138,13 +150,38 @@ export interface HourlyWeatherType {
   feels_like: number
   wind_speed: number
   humidity: number
+  pressure: number
+  wind_deg: number
+  wind_gust: number
   clouds: number
   pop: number
   description: string
+  visibility: number
+  uvi: number
   icon: {
     src: string
   }
 }
+
+// dt: number
+// sunrise: number
+// temp: number
+// feels_like: number
+// pressure: number
+// humidity: number
+// dew_point: number
+// wind_speed: number
+// wind_deg: number
+// wind_gust: number
+// weather: {
+//   id: number
+//   main: string
+//   description: string
+//   icon: string
+// }[]
+// clouds: number
+// pop: number
+// uvi: number
 
 export interface WeatherAlertType {
   start: Moment

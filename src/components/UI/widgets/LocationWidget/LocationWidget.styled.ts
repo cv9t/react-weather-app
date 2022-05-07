@@ -20,6 +20,7 @@ export const LocationWidgetWrapper = styled('div', {
           color: theme.palette.primary.contrastText,
           transition: theme.transitions.create(['background-color']),
           background: theme.palette.primary.main,
+
           '&:hover': {
             backgroundColor: theme.palette.primary.dark,
             cursor: 'pointer',
@@ -28,20 +29,19 @@ export const LocationWidgetWrapper = styled('div', {
       }
 )
 
-export const Inner = styled(Paper)`
-  position: relative;
-  display: flex;
-  align-items: center;
-  min-width: 220px;
-  width: auto;
-  height: 40px;
-  padding: 0 16px;
-  overflow: 'hidden';
+export const Inner = styled(Paper)(() => ({
+  position: 'relative',
+  display: 'flex',
+  alignItems: 'center',
+  minWidth: 220,
+  width: 'auto',
+  height: 40,
+  padding: '0 16px',
 
-  &:hover {
-    cursor: pointer;
-  }
-`
+  '&:hover': {
+    cursor: 'pointer',
+  },
+}))
 
 export const Text = styled('span')(({ theme }) => ({
   position: 'absolute',

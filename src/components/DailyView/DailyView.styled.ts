@@ -1,9 +1,9 @@
 import { styled } from '@mui/material'
 
-export const DailyViewContainer = styled('div')`
-  display: flex;
-  flex-direction: column;
-`
+export const DailyViewContainer = styled('div')(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+}))
 
 export const DateInterval = styled('span')(({ theme }) => ({
   marginBottom: 12,

@@ -6,6 +6,7 @@ export const WeatherCardContainer = styled('div')(() => ({
   flexDirection: 'column',
   marginBottom: 12,
   border: `1px solid ${grey[300]}`,
+  borderRadius: 4,
 }))
 
 export const WeatherCardHeader = styled('div')(() => ({
@@ -26,6 +27,11 @@ export const DateWrapper = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'column',
   marginRight: 32,
+
+  '& .MuiTypography-root': {
+    fontWeight: 500,
+    fontSize: 14,
+  },
 }))
 
 export const ImgWrapper = styled('div')(() => ({
@@ -56,6 +62,7 @@ export const StatsWrapper = styled('div')(({ theme }) => ({
   flexGrow: 1,
   flexBasis: 0,
   marginRight: 64,
+
   '& svg': {
     color: theme.palette.primary.main,
   },
@@ -72,9 +79,11 @@ export const OpenButton = styled(IconButton)(() => ({
 export const AlertsContainer = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'column',
+  marginBottom: 22,
   padding: '10px 16px',
   border: `1px solid ${grey[300]}`,
   borderRadius: 4,
+
   '& .MuiTypography-root': {
     fontSize: 14,
   },
@@ -83,8 +92,17 @@ export const AlertsContainer = styled('div')(() => ({
 export const AlertWrapper = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'column',
-  marginBottom: 8,
+  marginBottom: 16,
+
   '&:last-child': {
     marginBottom: 0,
   },
+}))
+
+export const InformationWrapper = styled('div')(() => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  paddingBottom: 8,
+  borderBottom: `1px solid ${grey[300]}`,
 }))
