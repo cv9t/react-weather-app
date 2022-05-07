@@ -1,12 +1,7 @@
 import React from 'react'
 import usePlacesService from 'react-google-autocomplete/lib/usePlacesAutocompleteService'
 import { useAutocomplete, ListItemText, ListItem, createFilterOptions } from '@mui/material'
-import {
-  StyledInput,
-  StyledList,
-  StyledListItem,
-  LocationSearchBarWrapper,
-} from './LocationSearchBar.styled'
+import { Input, OptionList, Option, LocationSearchBarContainer } from './LocationSearchBar.styled'
 import { LocationType } from '../../../../types'
 
 interface LocationSearchBarProps {
@@ -62,36 +57,36 @@ function LocationSearchBar({ onSelect, placeholder }: LocationSearchBarProps) {
   })
 
   return (
-    <LocationSearchBarWrapper>
+    <LocationSearchBarContainer>
       <div {...getRootProps()}>
-        <StyledInput
+        <Input
           inputProps={{
             ...getInputProps(),
           }}
           placeholder={placeholder}
         />
       </div>
-      <StyledList {...getListboxProps()}>
+      <OptionList {...getListboxProps()}>
         {(inputValue && !groupedOptions.length) || isPlacePredictionsLoading ? (
-          <ListItem sx={{ padding: '6px 16px' }}>
+          <ListItem>
             <ListItemText
               primary={
                 isPlacePredictionsLoading
-                  ? 'Searching'
-                  : 'No results. Enter the correct name of the city'
+                  ? 'Searching...'
+                  : 'No results. Enter the correct name of the city.'
               }
               primaryTypographyProps={{ color: 'text.secondary' }}
             />
           </ListItem>
         ) : (
           (groupedOptions as typeof placePredictions).map((option, index) => (
-            <StyledListItem {...getOptionProps({ option, index })}>
+            <Option {...getOptionProps({ option, index })}>
               <ListItemText primary={option.description} />
-            </StyledListItem>
+            </Option>
           ))
         )}
-      </StyledList>
-    </LocationSearchBarWrapper>
+      </OptionList>
+    </LocationSearchBarContainer>
   )
 }
 

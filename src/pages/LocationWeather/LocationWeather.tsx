@@ -37,13 +37,13 @@ function LocationWeather() {
           </Box>
 
           <TabPanel value={weatherView} index={0}>
-            <TodayView weather={locationWeather.current} />
+            <TodayView weatherData={locationWeather.current} />
           </TabPanel>
           <TabPanel value={weatherView} index={1}>
-            <HourlyView weather={locationWeather.hourly} alerts={locationWeather.alerts} />
+            <HourlyView weatherData={locationWeather.hourly} alerts={locationWeather.alerts} />
           </TabPanel>
           <TabPanel value={weatherView} index={2}>
-            <DailyView weather={locationWeather.daily} alerts={locationWeather.alerts} />
+            <DailyView weatherData={locationWeather.daily} alerts={locationWeather.alerts} />
           </TabPanel>
         </>
       ) : (

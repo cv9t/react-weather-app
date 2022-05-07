@@ -11,7 +11,7 @@ function Layout() {
     <>
       {!homePage ? <Header /> : null}
 
-      <Container component="main" maxWidth="lg" sx={{ paddingTop: homePage ? 0 : 10 }}>
+      <Container component="main" maxWidth="md" sx={{ paddingTop: homePage ? 0 : 10 }}>
         <Outlet />
       </Container>
     </>

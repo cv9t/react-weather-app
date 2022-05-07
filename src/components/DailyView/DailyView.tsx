@@ -4,18 +4,26 @@ import { DailyViewContainer, DateInterval } from './DailyView.styled'
 import { WeatherDayCard } from '../UI'
 
 interface DailyViewProps {
-  weather: DailyWeatherType[]
+  weatherData: DailyWeatherType[]
   alerts: WeatherAlertType[]
 }
 
-function DailyView({ weather, alerts }: DailyViewProps) {
+function DailyView({ weatherData, alerts }: DailyViewProps) {
   return (
     <DailyViewContainer>
       <DateInterval>
-        {`${weather[0].dt.format('MMM D')} - ${weather[weather.length - 1].dt.format('MMM D')}`}
+        {`${weatherData[0].dt.format('MMM D')} - ${weatherData[weatherData.length - 1].dt.format(
+          'MMM D'
+        )}`}
       </DateInterval>
-      {weather.map((w) => (
-        <WeatherDayCard key={w.dt.format('X')} weather={w} alerts={alerts} />
+      {weatherData.map((weather) => (
+        <WeatherDayCard
+          key={weather.dt.format('X')}
+          weather={weather}
+          alerts={alerts.filter((alert) =>
+            weather.dt.isBetween(alert.start, alert.end, 'date', '[]')
+          )}
+        />
       ))}
     </DailyViewContainer>
   )

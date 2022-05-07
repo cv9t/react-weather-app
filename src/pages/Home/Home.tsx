@@ -22,9 +22,7 @@ function Home() {
       <Typography variant="h3" mb={5}>
         React Weather App
       </Typography>
-
       <LocationSearchBar onSelect={handleLocationSelect} placeholder="Search city" />
-
       <RecentLocationsContainer>
         {recentLocations.map((location, idx) => (
           <LocationWidget

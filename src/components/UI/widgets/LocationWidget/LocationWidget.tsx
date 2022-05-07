@@ -1,8 +1,7 @@
 import React from 'react'
 import { Tooltip, Typography, Skeleton } from '@mui/material'
-import { LocationWidgetWrapper, LocationAlertTitle, StyledPaper } from './LocationWidget.styled'
+import { LocationWidgetWrapper, Text, Inner } from './LocationWidget.styled'
 import { LocationType, WeatherType } from '../../../../types'
-import { capitalizeString } from '../../../../utils'
 import { WarningTooltip } from '../../tooltips'
 
 interface LocationWidgetProps {
@@ -38,14 +37,14 @@ function LocationWidget({
     <>
       {weather && (
         <LocationWidgetWrapper variant={variant} onClick={() => onClick(location)}>
-          <StyledPaper elevation={variant === 'text' ? 0 : 3}>
+          <Inner elevation={variant === 'text' ? 0 : 3}>
             {!withoutAlerts && weather.alerts.length > 0 && (
               <WarningTooltip alerts={weather.alerts}>
-                <LocationAlertTitle>{weather.alerts.length}</LocationAlertTitle>
+                <Text>{weather.alerts.length}</Text>
               </WarningTooltip>
             )}
             <Typography component="span">{location.description}</Typography>
-            <Tooltip title={capitalizeString(weather.current.description)}>
+            <Tooltip title={weather.current.description}>
               <img
                 src={weather.current.icon.src}
                 height={50}
@@ -54,7 +53,7 @@ function LocationWidget({
               />
             </Tooltip>
             <Typography component="span">{weather.current.temp}°C</Typography>
-          </StyledPaper>
+          </Inner>
         </LocationWidgetWrapper>
       )}
     </>

@@ -1,86 +1,62 @@
 import React from 'react'
-import { Typography, Box } from '@mui/material'
-import clsx from 'clsx'
+import { Box, Tooltip, Typography } from '@mui/material'
 import AirIcon from '@mui/icons-material/Air'
 import OpacityIcon from '@mui/icons-material/Opacity'
-import CloudQueueIcon from '@mui/icons-material/CloudQueue'
-import WarningIcon from '@mui/icons-material/Warning'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import { HourlyWeatherType, WeatherAlertType } from '../../../../types'
-import { TimeWrapper } from './WeatherHourCard.styled'
-import { CardContainer, ImgWrapper, MainStatsWrapper, StyledIconButton } from '../shared/styles'
-import { WarningTooltip } from '../../tooltips'
+import { WeatherCard } from '../WeatherCard'
 
 interface WeatherHourCardProps {
   weather: HourlyWeatherType
   alerts: WeatherAlertType[]
+  opened?: boolean
 }
 
-function WeatherHourCard({ weather, alerts }: WeatherHourCardProps) {
-  const [open, setOpen] = React.useState(false)
-  const currentAlerts = alerts.filter((alert) =>
-    weather.dt.isBetween(alert.start, alert.end, 'hour', '[]')
-  )
-  const mainStats = [
+function WeatherHourCard({ weather, alerts, opened }: WeatherHourCardProps) {
+  const weatherHeaderStats = [
     {
-      id: 'wind',
+      title: 'Wind speed',
       icon: <AirIcon />,
-      title: `${weather.wind_speed} m/s`,
+      text: `${weather.wind_speed} m/s`,
     },
     {
-      id: 'pop',
+      title: 'Probability of precipitation',
       icon: <OpacityIcon />,
-      title: `${weather.pop}%`,
-    },
-    {
-      id: 'clouds',
-      icon: <CloudQueueIcon />,
-      title: `${weather.clouds}%`,
+      text: `${weather.pop}%`,
     },
   ]
 
-  const handleOpen = () => {
-    setOpen((prev) => !prev)
-  }
-
   return (
-    <CardContainer>
-      <TimeWrapper>
-        <Typography>{weather.dt.format('hA')}</Typography>
-      </TimeWrapper>
-      <ImgWrapper>
-        <img src={weather.icon.src} alt={weather.description} />
-      </ImgWrapper>
-      <Typography variant="h4" fontWeight="400" mr={8} sx={{ lineHeight: 1, width: 96 }}>
-        {weather.temp}°
-      </Typography>
-      <Typography sx={{ width: 120 }}>Feels like {weather.feels_like}°</Typography>
-      <Box sx={{ flexGrow: 1 }} />
-      <MainStatsWrapper>
-        {mainStats.map((stat) => (
-          <Box key={stat.id} sx={{ display: 'flex' }}>
-            {stat.icon}
-            <Typography>{stat.title}</Typography>
-          </Box>
-        ))}
-      </MainStatsWrapper>
-      <Box sx={{ flexGrow: 1 }} />
-      {currentAlerts.length > 0 && (
-        <WarningTooltip alerts={currentAlerts}>
-          <WarningIcon
-            color="error"
-            sx={{
-              position: 'absolute',
-              right: 64,
-              '&:hover': { cursor: 'pointer' },
-            }}
-          />
-        </WarningTooltip>
+    <WeatherCard
+      opened={opened}
+      alerts={alerts}
+      renderDate={() => (
+        <Typography textTransform="uppercase">{weather.dt.format('hh A')}</Typography>
       )}
-      <StyledIconButton className={clsx({ opened: open })} onClick={handleOpen}>
-        <KeyboardArrowDownIcon />
-      </StyledIconButton>
-    </CardContainer>
+      renderImg={() => <img src={weather.icon.src} alt={weather.description} />}
+      renderTemperature={() => (
+        <Typography variant="h4" sx={{ lineHeight: 1 }}>
+          {weather.temp}°
+        </Typography>
+      )}
+      renderDescription={() => (
+        <>
+          <Typography>Feels like {weather.feels_like}°</Typography>
+          <Typography color="text.secondary" fontSize={14}>
+            {weather.description}
+          </Typography>
+        </>
+      )}
+      renderStats={() =>
+        weatherHeaderStats.map((stat) => (
+          <Tooltip key={stat.title} placement="top" title={stat.title}>
+            <Box sx={{ display: 'flex', '&:hover': { cursor: 'pointer' } }}>
+              {stat.icon}
+              <Typography>{stat.text}</Typography>
+            </Box>
+          </Tooltip>
+        ))
+      }
+    />
   )
 }
 

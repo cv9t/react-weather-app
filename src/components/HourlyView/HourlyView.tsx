@@ -2,27 +2,34 @@ import moment from 'moment'
 import React from 'react'
 import { HourlyWeatherType, WeatherAlertType } from '../../types'
 import { WeatherHourCard } from '../UI'
-import { HourlyViewContainer, DateInterval } from './HourlyView.styled'
+import { HourlyViewContainer, TimeInterval } from './HourlyView.styled'
 
 interface HourlyViewProps {
-  weather: HourlyWeatherType[]
+  weatherData: HourlyWeatherType[]
   alerts: WeatherAlertType[]
 }
 
-function HourlyView({ weather, alerts }: HourlyViewProps) {
-  const currentHoursWeather = weather.filter((w) =>
+function HourlyView({ weatherData, alerts }: HourlyViewProps) {
+  const filteredWeatherData = weatherData.filter((w) =>
     w.dt.isBetween(moment(), moment().clone().add(1, 'day').startOf('day'), 'day', '[)')
   )
 
   return (
     <HourlyViewContainer>
-      <DateInterval>
-        {`${currentHoursWeather[0].dt.format('hA')} - ${currentHoursWeather[
-          currentHoursWeather.length - 1
+      <TimeInterval>
+        {`${filteredWeatherData[0].dt.format('hA')} - ${filteredWeatherData[
+          filteredWeatherData.length - 1
         ].dt.format('hA')}`}
-      </DateInterval>
-      {currentHoursWeather.map((w) => (
-        <WeatherHourCard key={w.dt.format('X')} weather={w} alerts={alerts} />
+      </TimeInterval>
+      {filteredWeatherData.map((weather, idx) => (
+        <WeatherHourCard
+          key={weather.dt.format('X')}
+          weather={weather}
+          alerts={alerts.filter((alert) =>
+            weather.dt.isBetween(alert.start, alert.end, 'hour', '[]')
+          )}
+          opened={idx === 0}
+        />
       ))}
     </HourlyViewContainer>
   )

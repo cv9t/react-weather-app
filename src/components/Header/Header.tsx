@@ -2,7 +2,7 @@ import React from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { Container, Box, Toolbar } from '@mui/material'
 import { useRecentLocations, useLocationWeather } from '../../hooks'
-import { StyledAppBar, StyledTypography } from './Header.styled'
+import { HeaderContainer, Title } from './Header.styled'
 import { LocationSearchBar, LocationWidget } from '../UI'
 import { LocationType } from '../../types'
 
@@ -27,13 +27,12 @@ function Header() {
   }
 
   return (
-    <StyledAppBar position="fixed">
-      <Container maxWidth="lg">
+    <HeaderContainer position="fixed">
+      <Container maxWidth="md">
         <Toolbar>
-          <StyledTypography variant="h5">
+          <Title variant="h5">
             <Link to="/">React Weather App</Link>
-          </StyledTypography>
-
+          </Title>
           <LocationWidget
             location={recentLocations[1]}
             weather={recentLocationWeather}
@@ -42,15 +41,13 @@ function Header() {
             withoutAlerts
             variant="text"
           />
-
           <Box sx={{ flexGrow: 1 }} />
-
           <Box>
             <LocationSearchBar onSelect={handleLocationSearchBarSelect} placeholder="Search City" />
           </Box>
         </Toolbar>
       </Container>
-    </StyledAppBar>
+    </HeaderContainer>
   )
 }
 

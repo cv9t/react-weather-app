@@ -4,17 +4,14 @@ import { LocationType } from '../types'
 
 const initialValue = [
   {
-    // coords: { lat: 35.6803997, lng: 139.7690174 },
     description: 'Tokyo, Japan',
     placeId: 'ChIJXSModoWLGGARILWiCfeu2M0',
   },
   {
-    // coords: { lat: 51.5072178, lng: -0.1275862 },
     description: 'London, UK',
     placeId: 'ChIJdd4hrwug2EcRmSrV3Vo6llI',
   },
   {
-    // coords: { lat: 40.7127753, lng: -74.0059728 },
     description: 'New York, NY, USA',
     placeId: 'ChIJOwg_06VPwokRYv534QaPC8g',
   },

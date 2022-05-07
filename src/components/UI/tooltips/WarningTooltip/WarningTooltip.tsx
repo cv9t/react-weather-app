@@ -24,9 +24,9 @@ function WarningTooltip({ alerts, children }: WarningTooltipProps) {
                 primaryTypographyProps={{ fontSize: 14, fontWeight: 'medium', mb: 0.25 }}
                 secondary={
                   <>
-                    <span>Start: {alert.start.format('ddd, MMMM DD, h:mm a')}</span>
+                    <span>Start: {alert.start.format('ddd, MMMM D, h:mm a')}</span>
                     <br />
-                    <span>End: {alert.end.format('ddd, MMMM DD, h:mm a')}</span>
+                    <span>End: {alert.end.format('ddd, MMMM D, h:mm a')}</span>
                   </>
                 }
                 secondaryTypographyProps={{ color: 'rgba(255,255,255,.5)' }}

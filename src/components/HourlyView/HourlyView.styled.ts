@@ -5,7 +5,8 @@ export const HourlyViewContainer = styled('div')`
   flex-direction: column;
 `
 
-export const DateInterval = styled('span')(({ theme }) => ({
+export const TimeInterval = styled('span')(({ theme }) => ({
+  marginBottom: 12,
   fontWeight: 500,
   fontSize: 14,
   color: theme.palette.text.secondary,
