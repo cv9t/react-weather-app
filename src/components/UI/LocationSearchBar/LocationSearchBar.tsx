@@ -1,8 +1,8 @@
 import React from 'react'
-import usePlacesService from 'react-google-autocomplete/lib/usePlacesAutocompleteService'
 import { useAutocomplete, ListItemText, ListItem, createFilterOptions } from '@mui/material'
-import { Input, OptionList, Option, LocationSearchBarContainer } from './LocationSearchBar.styled'
-import { LocationType } from '../../../../types'
+import usePlacesService from 'react-google-autocomplete/lib/usePlacesAutocompleteService'
+import { LocationType } from '../../../types'
+import { Container, StyledInput, StyledList, StyledListItem } from './LocationSearchBar.styled'
 
 interface LocationSearchBarProps {
   onSelect: (location: LocationType) => void
@@ -45,7 +45,7 @@ function LocationSearchBar({ onSelect, placeholder }: LocationSearchBarProps) {
       return []
     },
     onChange: (_, value) => {
-      if (!value) return
+      if (!value || typeof value === 'string') return
 
       const location: LocationType = {
         description: value.description,
@@ -57,36 +57,31 @@ function LocationSearchBar({ onSelect, placeholder }: LocationSearchBarProps) {
   })
 
   return (
-    <LocationSearchBarContainer>
+    <Container>
       <div {...getRootProps()}>
-        <Input
+        <StyledInput
           inputProps={{
             ...getInputProps(),
           }}
           placeholder={placeholder}
         />
       </div>
-      <OptionList {...getListboxProps()}>
+      <StyledList {...getListboxProps()}>
         {(inputValue && !groupedOptions.length) || isPlacePredictionsLoading ? (
           <ListItem>
             <ListItemText
-              primary={
-                isPlacePredictionsLoading
-                  ? 'Searching...'
-                  : 'No results. Enter the correct name of the city.'
-              }
-              primaryTypographyProps={{ color: 'text.secondary' }}
+              primary={isPlacePredictionsLoading ? 'Loading...' : "Can't find your location. 😔"}
             />
           </ListItem>
         ) : (
           (groupedOptions as typeof placePredictions).map((option, index) => (
-            <Option {...getOptionProps({ option, index })}>
+            <StyledListItem {...getOptionProps({ option, index })}>
               <ListItemText primary={option.description} />
-            </Option>
+            </StyledListItem>
           ))
         )}
-      </OptionList>
-    </LocationSearchBarContainer>
+      </StyledList>
+    </Container>
   )
 }
 

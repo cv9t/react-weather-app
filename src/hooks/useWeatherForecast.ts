@@ -3,13 +3,15 @@ import React from 'react'
 import axios from 'axios'
 import { useSnackbar } from 'notistack'
 import { WeatherService } from '../service'
-import { LocationType, WeatherType } from '../types'
+import { LocationType, WeatherForecastType } from '../types'
 
-function useLocationWeather<T extends LocationType[] | LocationType>(
+function useWeatherForecast<T extends LocationType[] | LocationType>(
   location: T,
   errorMessage?: string
 ) {
-  const [weather, setWeather] = React.useState<WeatherType[] | WeatherType | undefined>()
+  const [weatherForecast, setWeatherForecast] = React.useState<
+    WeatherForecastType[] | WeatherForecastType | undefined
+  >()
   const [loading, setLoading] = React.useState(false)
   const { enqueueSnackbar } = useSnackbar()
 
@@ -26,14 +28,14 @@ function useLocationWeather<T extends LocationType[] | LocationType>(
             promises.push(WeatherService.getOneCallWeatherForecast(location[i], source.token))
           }
 
-          const fetchedWeather = await Promise.all(promises)
-          setWeather(fetchedWeather)
+          const fetchedWeatherForecast = await Promise.all(promises)
+          setWeatherForecast(fetchedWeatherForecast)
         } else {
-          const fetchedWeather = await WeatherService.getOneCallWeatherForecast(
+          const fetchedWeatherForecast = await WeatherService.getOneCallWeatherForecast(
             location,
             source.token
           )
-          setWeather(fetchedWeather)
+          setWeatherForecast(fetchedWeatherForecast)
         }
       } catch (e) {
         if (axios.isCancel(e)) {
@@ -62,9 +64,11 @@ function useLocationWeather<T extends LocationType[] | LocationType>(
   }, [location])
 
   return [
-    weather as (T extends LocationType[] ? WeatherType[] : WeatherType) | undefined,
+    weatherForecast as
+      | (T extends LocationType[] ? WeatherForecastType[] : WeatherForecastType)
+      | undefined,
     loading,
   ] as const
 }
 
-export { useLocationWeather }
+export { useWeatherForecast }

@@ -1,7 +1,7 @@
 import moment from 'moment'
 import {
   OneCallWeatherDataType,
-  WeatherType,
+  WeatherForecastType,
   WeatherAlertType,
   OneCallDailyWeatherType,
   DailyWeatherType,
@@ -29,6 +29,14 @@ function getCurrentWeather(weatherData: OneCallCurrentWeatherType) {
     dt: moment(weatherData.dt, 'X'),
     temp: Math.round(weatherData.temp),
     feels_like: Math.round(weatherData.feels_like),
+    dew_point: Math.round(weatherData.dew_point),
+    wind_deg: Math.round(weatherData.wind_deg),
+    wind_speed: Math.round(weatherData.wind_speed),
+    pressure: Math.round(weatherData.pressure),
+    visibility: Math.round(weatherData.visibility / 1000),
+    uvi: Math.round(weatherData.uvi),
+    humidity: weatherData.humidity,
+    clouds: weatherData.clouds,
     description: capitalizeString(weatherData.weather[0].description),
     icon: {
       src: `http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`,
@@ -54,7 +62,7 @@ function getDailyWeather(weatherData: OneCallDailyWeatherType) {
       morn: Math.round(weatherData.feels_like.morn),
     },
     dew_point: Math.round(weatherData.dew_point),
-    wind_deg: Math.round(weatherData.wind_gust),
+    wind_deg: Math.round(weatherData.wind_deg),
     wind_speed: Math.round(weatherData.wind_speed),
     wind_gust: Math.round(weatherData.wind_gust),
     pressure: Math.round(weatherData.pressure),
@@ -94,7 +102,7 @@ function getHourlyWeather(weatherData: OneCallHourlyWeatherType) {
 }
 
 function getWeatherInfo(weatherData: OneCallWeatherDataType) {
-  const weather: WeatherType = {
+  const weather: WeatherForecastType = {
     alerts: weatherData.alerts ? getUniqueAlerts(weatherData.alerts) : [],
     current: getCurrentWeather(weatherData.current),
     daily: weatherData.daily.map(getDailyWeather),

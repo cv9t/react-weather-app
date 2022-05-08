@@ -1,19 +1,19 @@
 import React from 'react'
-import { Box, Tooltip, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import AirIcon from '@mui/icons-material/Air'
 import OpacityIcon from '@mui/icons-material/Opacity'
 import { DailyWeatherType, WeatherAlertType } from '../../../../types'
-import { WeatherCard } from '../WeatherCard'
-import { AdditionalInformationType } from '../shared/types'
+import { WeatherCardBase } from '../WeatherCardBase'
+import { WeatherCardHeaderParam, WeatherCardBodyParam } from '../shared/types'
 
-interface WeatherDayCardProps {
+interface DayWeatherCardProps {
   weather: DailyWeatherType
   alerts: WeatherAlertType[]
   opened?: boolean
 }
 
-function WeatherDayCard({ weather, alerts, opened }: WeatherDayCardProps) {
-  const weatherHeaderStats = [
+function DayWeatherCard({ weather, alerts, opened }: DayWeatherCardProps) {
+  const headerParams: WeatherCardHeaderParam[] = [
     {
       title: 'Wind speed',
       icon: <AirIcon />,
@@ -25,7 +25,7 @@ function WeatherDayCard({ weather, alerts, opened }: WeatherDayCardProps) {
       text: `${weather.pop}%`,
     },
   ]
-  const additionalInformation: AdditionalInformationType[] = [
+  const bodyParams: WeatherCardBodyParam[] = [
     {
       title: 'Humidity',
       value: `${weather.humidity}%`,
@@ -62,7 +62,6 @@ function WeatherDayCard({ weather, alerts, opened }: WeatherDayCardProps) {
       title: 'Morning temperature',
       value: `${weather.temp.morn}°`,
     },
-
     {
       title: 'Wind Gust',
       value: `${weather.wind_gust} m/s`,
@@ -74,10 +73,11 @@ function WeatherDayCard({ weather, alerts, opened }: WeatherDayCardProps) {
   ]
 
   return (
-    <WeatherCard
+    <WeatherCardBase
       opened={opened}
       alerts={alerts}
-      additionalInformation={additionalInformation}
+      headerParams={headerParams}
+      bodyParams={bodyParams}
       renderDate={() => (
         <>
           <Typography textTransform="uppercase">{weather.dt.format('ddd')}</Typography>
@@ -96,18 +96,8 @@ function WeatherDayCard({ weather, alerts, opened }: WeatherDayCardProps) {
         </>
       )}
       renderDescription={() => <Typography>{weather.description}</Typography>}
-      renderStats={() =>
-        weatherHeaderStats.map((stat) => (
-          <Tooltip key={stat.title} placement="top" title={stat.title}>
-            <Box sx={{ display: 'flex', '&:hover': { cursor: 'pointer' } }}>
-              {stat.icon}
-              <Typography>{stat.text}</Typography>
-            </Box>
-          </Tooltip>
-        ))
-      }
     />
   )
 }
 
-export { WeatherDayCard }
+export { DayWeatherCard }

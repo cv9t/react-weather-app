@@ -1,6 +1,6 @@
 import { styled } from '@mui/material'
 
-export const HomeContainer = styled('div')(() => ({
+export const Container = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',

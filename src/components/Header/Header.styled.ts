@@ -1,7 +1,7 @@
 import { AppBar, styled, Typography } from '@mui/material'
 import { grey } from '@mui/material/colors'
 
-export const HeaderContainer = styled(AppBar)(({ theme }) => ({
+export const StyledAppBar = styled(AppBar)(({ theme }) => ({
   padding: '0 calc(20px - (100vw - 100%)) 0 0',
   backgroundColor: theme.palette.primary.contrastText,
   color: theme.palette.text.primary,
@@ -14,7 +14,7 @@ export const HeaderContainer = styled(AppBar)(({ theme }) => ({
   },
 }))
 
-export const Title = styled(Typography)(() => ({
+export const StyledTypography = styled(Typography)(() => ({
   marginRight: 40,
   cursor: 'pointer',
 

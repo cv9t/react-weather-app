@@ -20,7 +20,7 @@ function LoadGoogleMap({ children }: LoadGoogleMapProps) {
 
   React.useEffect(() => {
     if (loadError) {
-      enqueueSnackbar(loadError.message, {
+      enqueueSnackbar("Can't load the google map", {
         variant: 'error',
       })
     }

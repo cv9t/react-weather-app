@@ -10,26 +10,22 @@ class WeatherService {
   public static async getOneCallWeatherForecast(location: LocationType, cancelToken?: CancelToken) {
     const results = await geocodeByAddress(location.description)
     const { lat, lng } = await getLatLng(results[0])
+    const { data }: { data: OneCallWeatherDataType } = await axios.get(API_URL.ONE_CALL, {
+      params: {
+        lat,
+        lon: lng,
+        units: 'metric',
+        lang: 'en',
+        appid: process.env.OPENWEATHER_API_KEY,
+      },
+      cancelToken,
+    })
 
-    const { data: weatherData }: { data: OneCallWeatherDataType } = await axios.get(
-      API_URL.ONE_CALL,
-      {
-        params: {
-          lat,
-          lon: lng,
-          units: 'metric',
-          lang: 'en',
-          appid: process.env.OPENWEATHER_API_KEY,
-        },
-        cancelToken,
-      }
-    )
+    console.log(data)
 
-    console.log(weatherData)
+    const weatherForecast = getWeatherInfo(data)
 
-    const weather = getWeatherInfo(weatherData)
-
-    return weather
+    return weatherForecast
   }
 }
 

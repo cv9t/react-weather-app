@@ -1,21 +1,21 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 import { Box, Tabs, Typography, CircularProgress } from '@mui/material'
-import { useLocationWeather } from '../../hooks'
+import { Container, StyledTab, LoaderWrapper } from './LocationWeather.styled'
+import { useWeatherForecast } from '../../hooks'
 import { LocationType } from '../../types'
-import { LocationWeatherContainer, WeatherViewTab, LoaderWrapper } from './LocationWeather.styled'
-import { TabPanel, DailyView, TodayView, HourlyView } from '../../components'
+import { TabPanel, TodayView, HourlyView, DailyView } from '../../components'
 
 function LocationWeather() {
   const location = useLocation().state as LocationType
   const [weatherView, setWeatherView] = React.useState(0)
-  const [locationWeather, locationWeatherLoading] = useLocationWeather(location)
+  const [weatherForecast, weatherForecastLoading] = useWeatherForecast(location)
 
   const handleWeatherViewChange = (_: React.SyntheticEvent, value: number) => {
     setWeatherView(value)
   }
 
-  if (locationWeatherLoading) {
+  if (weatherForecastLoading) {
     return (
       <LoaderWrapper>
         <CircularProgress />
@@ -25,25 +25,36 @@ function LocationWeather() {
   }
 
   return (
-    <LocationWeatherContainer>
-      {locationWeather ? (
+    <Container>
+      {weatherForecast ? (
         <>
           <Box sx={{ marginTop: -2, borderBottom: 1, borderColor: 'divider' }}>
             <Tabs value={weatherView} onChange={handleWeatherViewChange}>
-              <WeatherViewTab label="Today" disableRipple />
-              <WeatherViewTab label="Hourly" disableRipple />
-              <WeatherViewTab label="Daily" disableRipple />
+              <StyledTab label="Today" disableRipple />
+              <StyledTab label="Hourly" disableRipple />
+              <StyledTab label="Daily" disableRipple />
             </Tabs>
           </Box>
-
           <TabPanel value={weatherView} index={0}>
-            <TodayView weatherData={locationWeather.current} />
+            <TodayView
+              location={location}
+              todayWeather={weatherForecast.daily[0]}
+              tomorrowWeather={weatherForecast.daily[1]}
+              nextHourWeather={weatherForecast.hourly[1]}
+              alerts={weatherForecast.alerts}
+            />
           </TabPanel>
           <TabPanel value={weatherView} index={1}>
-            <HourlyView weatherData={locationWeather.hourly} alerts={locationWeather.alerts} />
+            <HourlyView
+              hourlyWeatherForecast={weatherForecast.hourly}
+              alerts={weatherForecast.alerts}
+            />
           </TabPanel>
           <TabPanel value={weatherView} index={2}>
-            <DailyView weatherData={locationWeather.daily} alerts={locationWeather.alerts} />
+            <DailyView
+              dailyWeatherForecast={weatherForecast.daily}
+              alerts={weatherForecast.alerts}
+            />
           </TabPanel>
         </>
       ) : (
@@ -52,11 +63,11 @@ function LocationWeather() {
             We can&apos;t get the weather forecast for the current location you are looking for. 😔
           </Typography>
           <Typography color="text.secondary" align="center">
-            Try to reload the page or search another location
+            Try to reload the page or search another location.
           </Typography>
         </>
       )}
-    </LocationWeatherContainer>
+    </Container>
   )
 }
 

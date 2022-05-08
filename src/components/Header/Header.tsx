@@ -1,8 +1,8 @@
 import React from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { Container, Box, Toolbar } from '@mui/material'
-import { useRecentLocations, useLocationWeather } from '../../hooks'
-import { HeaderContainer, Title } from './Header.styled'
+import { useRecentLocations, useWeatherForecast } from '../../hooks'
+import { StyledAppBar, StyledTypography } from './Header.styled'
 import { LocationSearchBar, LocationWidget } from '../UI'
 import { LocationType } from '../../types'
 
@@ -10,9 +10,7 @@ function Header() {
   const navigate = useNavigate()
   const { locationId } = useParams<'locationId'>()
   const { recentLocations, saveRecentLocation } = useRecentLocations()
-  const [recentLocationWeather, recentLocationWeatherLoading] = useLocationWeather(
-    recentLocations[1]
-  )
+  const [weatherForecast, weatherForecastLoading] = useWeatherForecast(recentLocations[1])
 
   const handleRecentLocationClick = () => {
     saveRecentLocation(recentLocations[1])
@@ -27,18 +25,17 @@ function Header() {
   }
 
   return (
-    <HeaderContainer position="fixed">
+    <StyledAppBar position="fixed">
       <Container maxWidth="md">
         <Toolbar>
-          <Title variant="h5">
+          <StyledTypography variant="h5">
             <Link to="/">React Weather App</Link>
-          </Title>
+          </StyledTypography>
           <LocationWidget
             location={recentLocations[1]}
-            weather={recentLocationWeather}
+            weather={weatherForecast?.current}
             onClick={handleRecentLocationClick}
-            loading={recentLocationWeatherLoading}
-            withoutAlerts
+            loading={weatherForecastLoading}
             variant="text"
           />
           <Box sx={{ flexGrow: 1 }} />
@@ -47,7 +44,7 @@ function Header() {
           </Box>
         </Toolbar>
       </Container>
-    </HeaderContainer>
+    </StyledAppBar>
   )
 }
 

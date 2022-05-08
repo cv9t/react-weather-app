@@ -111,6 +111,14 @@ export interface CurrentWeatherType {
   temp: number
   feels_like: number
   description: string
+  pressure: number
+  humidity: number
+  dew_point: number
+  uvi: number
+  clouds: number
+  visibility: number
+  wind_speed: number
+  wind_deg: number
   icon: {
     src: string
   }
@@ -190,7 +198,7 @@ export interface WeatherAlertType {
   tags: string[]
 }
 
-export interface WeatherType {
+export interface WeatherForecastType {
   alerts: WeatherAlertType[]
   current: CurrentWeatherType
   daily: DailyWeatherType[]

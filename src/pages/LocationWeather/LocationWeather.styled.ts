@@ -1,11 +1,11 @@
 import { styled, Tab } from '@mui/material'
 
-export const LocationWeatherContainer = styled('div')(() => ({
+export const Container = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'column',
 }))
 
-export const WeatherViewTab = styled(Tab)(() => ({
+export const StyledTab = styled(Tab)(() => ({
   minWidth: 'auto',
   marginRight: 20,
   padding: 0,

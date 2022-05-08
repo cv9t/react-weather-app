@@ -1,12 +1,10 @@
 import React from 'react'
 import { SnackbarProvider } from 'notistack'
-import { StyledEngineProvider, ThemeProvider, GlobalStyles } from '@mui/material'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { theme } from '../styles'
-import { RecentLocationsProvider } from '../context'
+import { ThemeProvider, RecentLocationsProvider } from '../context'
+import { LoadGoogleMap } from './LoadGoogleMap'
 import { Layout } from './Layout'
 import { Home, NotFound, LocationWeather } from '../pages'
-import { LoadGoogleMap } from './LoadGoogleMap'
 
 function App() {
   return (
@@ -22,35 +20,17 @@ function App() {
   )
 }
 
-const inputGlobalStyles = () => (
-  <GlobalStyles
-    styles={{
-      '*, *::after, *::before': {
-        boxSizing: 'border-box',
-      },
-      body: {
-        fontFamily: 'Roboto',
-        margin: 0,
-        padding: '0 calc(20px - (100vw - 100%)) 0 0',
-      },
-    }}
-  />
-)
-
 function AppWithProviders() {
   return (
-    <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={theme}>
-        <SnackbarProvider maxSnack={3} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
-          <RecentLocationsProvider>
-            {inputGlobalStyles()}
-            <LoadGoogleMap>
-              <App />
-            </LoadGoogleMap>
-          </RecentLocationsProvider>
-        </SnackbarProvider>
-      </ThemeProvider>
-    </StyledEngineProvider>
+    <ThemeProvider>
+      <SnackbarProvider maxSnack={3} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+        <RecentLocationsProvider>
+          <LoadGoogleMap>
+            <App />
+          </LoadGoogleMap>
+        </RecentLocationsProvider>
+      </SnackbarProvider>
+    </ThemeProvider>
   )
 }
 

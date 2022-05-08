@@ -1,12 +1,12 @@
 import { styled, InputBase, List, ListItem } from '@mui/material'
 import { grey } from '@mui/material/colors'
 
-export const LocationSearchBarContainer = styled('div')(() => ({
+export const Container = styled('div')(() => ({
   position: 'relative',
   width: '100%',
 }))
 
-export const Input = styled(InputBase)(({ theme }) => ({
+export const StyledInput = styled(InputBase)(({ theme }) => ({
   width: '100%',
 
   '& .MuiInputBase-input': {
@@ -24,7 +24,7 @@ export const Input = styled(InputBase)(({ theme }) => ({
   },
 }))
 
-export const OptionList = styled(List)(({ theme }) => ({
+export const StyledList = styled(List)(({ theme }) => ({
   position: 'absolute',
   width: '100%',
   margin: '8px 0 0',
@@ -39,7 +39,7 @@ export const OptionList = styled(List)(({ theme }) => ({
   },
 }))
 
-export const Option = styled(ListItem)(({ theme }) => ({
+export const StyledListItem = styled(ListItem)(({ theme }) => ({
   borderBottom: `1px solid ${grey[300]}`,
   transition: theme.transitions.create(['background-color', 'color'], { duration: 50 }),
 

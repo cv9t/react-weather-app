@@ -1,15 +1,19 @@
 import { styled, IconButton } from '@mui/material'
 import { grey } from '@mui/material/colors'
 
-export const WeatherCardContainer = styled('div')(() => ({
+export const Container = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'column',
   marginBottom: 12,
   border: `1px solid ${grey[300]}`,
   borderRadius: 4,
+
+  '&:last-child': {
+    marginBottom: 0,
+  },
 }))
 
-export const WeatherCardHeader = styled('div')(() => ({
+export const Header = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
   padding: '0 16px',
@@ -17,7 +21,7 @@ export const WeatherCardHeader = styled('div')(() => ({
   flexBasis: 0,
 }))
 
-export const WeatherCardBody = styled('div')(() => ({
+export const Body = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'column',
   padding: '0 16px 16px',
@@ -26,7 +30,8 @@ export const WeatherCardBody = styled('div')(() => ({
 export const DateWrapper = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'column',
-  marginRight: 32,
+  width: 46,
+  marginRight: 24,
 
   '& .MuiTypography-root': {
     fontWeight: 500,
@@ -56,16 +61,27 @@ export const DescriptionWrapper = styled('div')(() => ({
   flexBasis: 0,
 }))
 
-export const StatsWrapper = styled('div')(({ theme }) => ({
+export const HeaderParamsContainer = styled('div')(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   flexGrow: 1,
   flexBasis: 0,
-  marginRight: 64,
+  marginRight: 16,
+
+  '& div': {
+    flexGrow: 1,
+    flexBasis: 0,
+  },
 
   '& svg': {
     color: theme.palette.primary.main,
   },
+}))
+
+export const OpenButtonWrapper = styled('div')(() => ({
+  position: 'relative',
+  display: 'flex',
+  alignItems: 'center',
 }))
 
 export const OpenButton = styled(IconButton)(() => ({
@@ -76,30 +92,13 @@ export const OpenButton = styled(IconButton)(() => ({
   },
 }))
 
-export const AlertsContainer = styled('div')(() => ({
-  display: 'flex',
-  flexDirection: 'column',
-  marginBottom: 22,
-  padding: '10px 16px',
-  border: `1px solid ${grey[300]}`,
-  borderRadius: 4,
-
-  '& .MuiTypography-root': {
-    fontSize: 14,
-  },
+export const HeaderParam = styled('div')(() => ({
+  display: 'inline-flex',
+  padding: '5px',
+  '&:hover': { cursor: 'pointer' },
 }))
 
-export const AlertWrapper = styled('div')(() => ({
-  display: 'flex',
-  flexDirection: 'column',
-  marginBottom: 16,
-
-  '&:last-child': {
-    marginBottom: 0,
-  },
-}))
-
-export const InformationWrapper = styled('div')(() => ({
+export const BodyParam = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',

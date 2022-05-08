@@ -1,8 +1,9 @@
 import { styled } from '@mui/material'
 
-export const DailyViewContainer = styled('div')(() => ({
+export const Container = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'column',
+  paddingBottom: 12,
 }))
 
 export const DateInterval = styled('span')(({ theme }) => ({

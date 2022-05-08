@@ -1,19 +1,19 @@
 import React from 'react'
-import { Box, Tooltip, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import AirIcon from '@mui/icons-material/Air'
 import OpacityIcon from '@mui/icons-material/Opacity'
 import { HourlyWeatherType, WeatherAlertType } from '../../../../types'
-import { WeatherCard } from '../WeatherCard'
-import { AdditionalInformationType } from '../shared/types'
+import { WeatherCardBase } from '../WeatherCardBase'
+import { WeatherCardHeaderParam, WeatherCardBodyParam } from '../shared/types'
 
-interface WeatherHourCardProps {
+interface HourWeatherCardProps {
   weather: HourlyWeatherType
   alerts: WeatherAlertType[]
   opened?: boolean
 }
 
-function WeatherHourCard({ weather, alerts, opened }: WeatherHourCardProps) {
-  const weatherHeaderStats = [
+function HourWeatherCard({ weather, alerts, opened }: HourWeatherCardProps) {
+  const headerParams: WeatherCardHeaderParam[] = [
     {
       title: 'Wind speed',
       icon: <AirIcon />,
@@ -26,7 +26,7 @@ function WeatherHourCard({ weather, alerts, opened }: WeatherHourCardProps) {
     },
   ]
 
-  const additionalInformation: AdditionalInformationType[] = [
+  const bodyParams: WeatherCardBodyParam[] = [
     {
       title: 'Temperature',
       value: `${weather.temp}°`,
@@ -62,10 +62,11 @@ function WeatherHourCard({ weather, alerts, opened }: WeatherHourCardProps) {
   ]
 
   return (
-    <WeatherCard
+    <WeatherCardBase
       opened={opened}
       alerts={alerts}
-      additionalInformation={additionalInformation}
+      headerParams={headerParams}
+      bodyParams={bodyParams}
       renderDate={() => (
         <Typography textTransform="uppercase">{weather.dt.format('h A')}</Typography>
       )}
@@ -83,18 +84,8 @@ function WeatherHourCard({ weather, alerts, opened }: WeatherHourCardProps) {
           </Typography>
         </>
       )}
-      renderStats={() =>
-        weatherHeaderStats.map((stat) => (
-          <Tooltip key={stat.title} placement="top" title={stat.title}>
-            <Box sx={{ display: 'flex', '&:hover': { cursor: 'pointer' } }}>
-              {stat.icon}
-              <Typography>{stat.text}</Typography>
-            </Box>
-          </Tooltip>
-        ))
-      }
     />
   )
 }
 
-export { WeatherHourCard }
+export { HourWeatherCard }

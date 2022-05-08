@@ -1,23 +1,23 @@
 import React from 'react'
 import { DailyWeatherType, WeatherAlertType } from '../../types'
-import { DailyViewContainer, DateInterval } from './DailyView.styled'
-import { WeatherDayCard } from '../UI'
+import { Container, DateInterval } from './DailyView.styled'
+import { DayWeatherCard } from '../UI'
 
 interface DailyViewProps {
-  weatherData: DailyWeatherType[]
+  dailyWeatherForecast: DailyWeatherType[]
   alerts: WeatherAlertType[]
 }
 
-function DailyView({ weatherData, alerts }: DailyViewProps) {
+function DailyView({ dailyWeatherForecast, alerts }: DailyViewProps) {
   return (
-    <DailyViewContainer>
+    <Container>
       <DateInterval>
-        {`${weatherData[0].dt.format('MMM D')} - ${weatherData[weatherData.length - 1].dt.format(
-          'MMM D'
-        )}`}
+        {`${dailyWeatherForecast[0].dt.format('MMM D')} - ${dailyWeatherForecast[
+          dailyWeatherForecast.length - 1
+        ].dt.format('MMM D')}`}
       </DateInterval>
-      {weatherData.map((weather) => (
-        <WeatherDayCard
+      {dailyWeatherForecast.map((weather) => (
+        <DayWeatherCard
           key={weather.dt.format('X')}
           weather={weather}
           alerts={alerts.filter((alert) =>
@@ -25,7 +25,7 @@ function DailyView({ weatherData, alerts }: DailyViewProps) {
           )}
         />
       ))}
-    </DailyViewContainer>
+    </Container>
   )
 }
 

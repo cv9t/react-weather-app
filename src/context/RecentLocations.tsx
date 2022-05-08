@@ -29,7 +29,11 @@ const RecentLocationsContext = React.createContext<RecentLocationsContextType>({
   saveRecentLocation: () => {},
 })
 
-function RecentLocationsProvider({ children }: { children: React.ReactNode }) {
+interface RecentLocationsProviderProps {
+  children: React.ReactNode
+}
+
+function RecentLocationsProvider({ children }: RecentLocationsProviderProps) {
   const [recentLocations, setRecentLocations] = useLocalStorage<LocationType[]>(
     'recentLocations',
     initialValue

@@ -9,7 +9,7 @@ function Layout() {
 
   return (
     <>
-      {!homePage ? <Header /> : null}
+      {!homePage && <Header />}
 
       <Container component="main" maxWidth="md" sx={{ paddingTop: homePage ? 0 : 10 }}>
         <Outlet />

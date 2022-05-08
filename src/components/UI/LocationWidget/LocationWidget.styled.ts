@@ -1,12 +1,12 @@
-import { styled, Paper } from '@mui/material'
+import { styled, Paper, Typography } from '@mui/material'
 
-interface LocationWidgetWrapperProps {
+interface WrapperProps {
   variant: 'text' | 'contained'
 }
 
-export const LocationWidgetWrapper = styled('div', {
+export const Wrapper = styled('div', {
   shouldForwardProp: (prop) => prop !== 'variant',
-})<LocationWidgetWrapperProps>(({ theme, variant }) =>
+})<WrapperProps>(({ theme, variant }) =>
   variant === 'text'
     ? {
         '& .MuiPaper-root': {
@@ -29,7 +29,7 @@ export const LocationWidgetWrapper = styled('div', {
       }
 )
 
-export const Inner = styled(Paper)(() => ({
+export const StyledPaper = styled(Paper)(() => ({
   position: 'relative',
   display: 'flex',
   alignItems: 'center',
@@ -43,7 +43,7 @@ export const Inner = styled(Paper)(() => ({
   },
 }))
 
-export const Text = styled('span')(({ theme }) => ({
+export const StyledSpan = styled('span')(({ theme }) => ({
   position: 'absolute',
   top: '7px',
   left: '-12px',
@@ -54,4 +54,18 @@ export const Text = styled('span')(({ theme }) => ({
   textAlign: 'center',
   backgroundColor: theme.palette.error.main,
   borderRadius: '50%',
+}))
+
+export const StyledTypography = styled(Typography)(() => ({
+  maxWidth: 200,
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+}))
+
+export const ImgWrapper = styled('div')(() => ({
+  '& img': {
+    width: 50,
+    height: 50,
+  },
 }))
