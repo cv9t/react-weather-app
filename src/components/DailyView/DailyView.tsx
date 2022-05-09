@@ -1,6 +1,6 @@
 import React from 'react'
 import { DailyWeatherType, WeatherAlertType } from '../../types'
-import { Container, DateInterval } from './DailyView.styled'
+import { Container, StyledSpan } from './DailyView.styled'
 import { DayWeatherCard } from '../UI'
 
 interface DailyViewProps {
@@ -11,11 +11,11 @@ interface DailyViewProps {
 function DailyView({ dailyWeatherForecast, alerts }: DailyViewProps) {
   return (
     <Container>
-      <DateInterval>
+      <StyledSpan>
         {`${dailyWeatherForecast[0].dt.format('MMM D')} - ${dailyWeatherForecast[
           dailyWeatherForecast.length - 1
         ].dt.format('MMM D')}`}
-      </DateInterval>
+      </StyledSpan>
       {dailyWeatherForecast.map((weather) => (
         <DayWeatherCard
           key={weather.dt.format('X')}

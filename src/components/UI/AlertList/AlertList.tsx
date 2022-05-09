@@ -9,7 +9,7 @@ interface AlertListProps {
 }
 
 function AlertList({ alerts }: AlertListProps) {
-  return alerts ? (
+  return alerts.length > 0 ? (
     <Container>
       <CaptionWrapper>
         <WarningIcon color="error" sx={{ marginRight: 1 }} />

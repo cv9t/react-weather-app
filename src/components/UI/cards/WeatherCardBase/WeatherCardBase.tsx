@@ -88,9 +88,7 @@ function WeatherCardBase({
             {bodyParams.map((param) => (
               <Grid key={param.title} item md={4} sm={6} xs={12}>
                 <BodyParam>
-                  <Typography fontSize={14} fontWeight={500} color="text.secondary">
-                    {param.title}
-                  </Typography>
+                  <Typography>{param.title}</Typography>
                   <Typography>{param.value}</Typography>
                 </BodyParam>
               </Grid>

@@ -61,7 +61,7 @@ export const DescriptionWrapper = styled('div')(() => ({
   flexBasis: 0,
 }))
 
-export const HeaderParamsContainer = styled('div')(({ theme }) => ({
+export const HeaderParamsContainer = styled('div')(() => ({
   display: 'flex',
   justifyContent: 'space-between',
   flexGrow: 1,
@@ -71,10 +71,6 @@ export const HeaderParamsContainer = styled('div')(({ theme }) => ({
   '& div': {
     flexGrow: 1,
     flexBasis: 0,
-  },
-
-  '& svg': {
-    color: theme.palette.primary.main,
   },
 }))
 
@@ -92,16 +88,28 @@ export const OpenButton = styled(IconButton)(() => ({
   },
 }))
 
-export const HeaderParam = styled('div')(() => ({
+export const HeaderParam = styled('div')(({ theme }) => ({
   display: 'inline-flex',
   padding: '5px',
+
   '&:hover': { cursor: 'pointer' },
+
+  '& svg': {
+    marginRight: 6,
+    color: theme.palette.primary.main,
+  },
 }))
 
-export const BodyParam = styled('div')(() => ({
+export const BodyParam = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
   paddingBottom: 8,
   borderBottom: `1px solid ${grey[300]}`,
+
+  '& .MuiTypography-root': {
+    color: theme.palette.text.secondary,
+    fontWeight: 500,
+    fontSize: 14,
+  },
 }))

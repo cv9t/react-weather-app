@@ -6,7 +6,7 @@ export const Container = styled('div')(() => ({
   paddingBottom: 12,
 }))
 
-export const TimeInterval = styled('span')(({ theme }) => ({
+export const StyledSpan = styled('span')(({ theme }) => ({
   marginBottom: 12,
   fontWeight: 500,
   fontSize: 14,

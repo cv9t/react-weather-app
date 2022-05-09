@@ -68,7 +68,7 @@ function DayWeatherCard({ weather, alerts, opened }: DayWeatherCardProps) {
     },
     {
       title: 'Wind Direction (Deg)',
-      value: `${weather.wind_deg}°`,
+      value: `${weather.wind_deg}`,
     },
   ]
 

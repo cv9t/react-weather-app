@@ -24,7 +24,10 @@ function getUniqueAlerts(alerts: OneCallWeatherAlertType[]) {
   return res
 }
 
-function getCurrentWeather(weatherData: OneCallCurrentWeatherType) {
+function getCurrentWeather(
+  weatherData: OneCallCurrentWeatherType,
+  dailyWeatherData: OneCallDailyWeatherType
+) {
   const weather: CurrentWeatherType = {
     dt: moment(weatherData.dt, 'X'),
     temp: Math.round(weatherData.temp),
@@ -32,6 +35,7 @@ function getCurrentWeather(weatherData: OneCallCurrentWeatherType) {
     dew_point: Math.round(weatherData.dew_point),
     wind_deg: Math.round(weatherData.wind_deg),
     wind_speed: Math.round(weatherData.wind_speed),
+    pop: Math.round(dailyWeatherData.pop * 100),
     pressure: Math.round(weatherData.pressure),
     visibility: Math.round(weatherData.visibility / 1000),
     uvi: Math.round(weatherData.uvi),
@@ -104,7 +108,7 @@ function getHourlyWeather(weatherData: OneCallHourlyWeatherType) {
 function getWeatherInfo(weatherData: OneCallWeatherDataType) {
   const weather: WeatherForecastType = {
     alerts: weatherData.alerts ? getUniqueAlerts(weatherData.alerts) : [],
-    current: getCurrentWeather(weatherData.current),
+    current: getCurrentWeather(weatherData.current, weatherData.daily[0]),
     daily: weatherData.daily.map(getDailyWeather),
     hourly: weatherData.hourly.map(getHourlyWeather),
   }

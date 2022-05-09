@@ -38,7 +38,7 @@ function LocationWeather() {
           <TabPanel value={weatherView} index={0}>
             <TodayView
               location={location}
-              todayWeather={weatherForecast.daily[0]}
+              currentWeather={weatherForecast.current}
               tomorrowWeather={weatherForecast.daily[1]}
               nextHourWeather={weatherForecast.hourly[1]}
               alerts={weatherForecast.alerts}

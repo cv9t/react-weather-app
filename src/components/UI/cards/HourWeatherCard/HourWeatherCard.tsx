@@ -53,7 +53,7 @@ function HourWeatherCard({ weather, alerts, opened }: HourWeatherCardProps) {
     },
     {
       title: 'Wind Direction (Deg)',
-      value: `${weather.wind_deg}°`,
+      value: `${weather.wind_deg}`,
     },
     {
       title: 'UV index',

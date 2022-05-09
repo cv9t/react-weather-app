@@ -1,12 +1,18 @@
 import React from 'react'
 import { Typography } from '@mui/material'
-import { DailyWeatherType, HourlyWeatherType, LocationType, WeatherAlertType } from '../../types'
+import {
+  CurrentWeatherType,
+  DailyWeatherType,
+  HourlyWeatherType,
+  LocationType,
+  WeatherAlertType,
+} from '../../types'
 import { Container } from './TodayView.styled'
-import { AlertList, DayWeatherCard, HourWeatherCard } from '../UI'
+import { AlertList, CurrentWeatherCard, DayWeatherCard, HourWeatherCard } from '../UI'
 
 interface TodayViewProps {
   location: LocationType
-  todayWeather: DailyWeatherType
+  currentWeather: CurrentWeatherType
   nextHourWeather: HourlyWeatherType
   tomorrowWeather: DailyWeatherType
   alerts: WeatherAlertType[]
@@ -14,13 +20,13 @@ interface TodayViewProps {
 
 function TodayView({
   location,
-  todayWeather,
+  currentWeather,
   nextHourWeather,
   tomorrowWeather,
   alerts,
 }: TodayViewProps) {
-  const todayAlerts = alerts.filter((alert) =>
-    alert.start.clone().startOf('day').isSame(todayWeather.dt.clone().startOf('day'))
+  const currentAlerts = alerts.filter((alert) =>
+    alert.start.clone().startOf('day').isSame(currentWeather.dt.clone().startOf('day'))
   )
   const tomorrowAlerts = alerts.filter((alert) =>
     tomorrowWeather.dt.isBetween(alert.start, alert.end, 'date', '[]')
@@ -37,7 +43,8 @@ function TodayView({
       <Typography fontWeight={500} mb={1.5} color="text.secondary">
         {location.description}
       </Typography>
-      <AlertList alerts={todayAlerts} />
+      <AlertList alerts={currentAlerts} />
+      <CurrentWeatherCard weather={currentWeather} />
       <Typography variant="h6" mb={1.5}>
         Weather for the next hour
       </Typography>

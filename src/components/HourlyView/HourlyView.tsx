@@ -2,7 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import { HourlyWeatherType, WeatherAlertType } from '../../types'
 import { HourWeatherCard } from '../UI'
-import { Container, TimeInterval } from './HourlyView.styled'
+import { Container, StyledSpan } from './HourlyView.styled'
 
 interface HourlyViewProps {
   hourlyWeatherForecast: HourlyWeatherType[]
@@ -16,11 +16,11 @@ function HourlyView({ hourlyWeatherForecast, alerts }: HourlyViewProps) {
 
   return (
     <Container>
-      <TimeInterval>
+      <StyledSpan>
         {`${filteredHourlyWeatherForecast[0].dt.format('hA')} - ${filteredHourlyWeatherForecast[
           filteredHourlyWeatherForecast.length - 1
         ].dt.format('hA')}`}
-      </TimeInterval>
+      </StyledSpan>
       {filteredHourlyWeatherForecast.map((weather, idx) => (
         <HourWeatherCard
           key={weather.dt.format('X')}

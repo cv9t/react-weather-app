@@ -109,6 +109,7 @@ export interface OneCallWeatherDataType {
 export interface CurrentWeatherType {
   dt: Moment
   temp: number
+  pop: number
   feels_like: number
   description: string
   pressure: number
